@@ -15,12 +15,14 @@ body {
 /* Menu flutuante */
 .floating-menu {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    top: 50%;
+    right: 5px;
+    z-index: 1000;
 }
 
 .floating-menu .whatsapp img {
     width: 50px;
+    pointer-events: auto;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -78,11 +80,19 @@ header .sub-heading {
 }
 
 /* Cartões de serviço */
-.cards {
+.carousel {
+    position: relative;
+    overflow: hidden;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
     justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.cards-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 0; /* Reduzido para que os cards fiquem próximos */
 }
 
 .card {
@@ -90,13 +100,18 @@ header .sub-heading {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
-    width: 280px;
+    width: 250px; /* Tamanho menor para caber mais cards */
     text-align: center;
-    transition: transform 0.3s ease;
+    opacity: 0.7;
+    transform: scale(0.95); /* Para o efeito de menor escala */
+    z-index: 1; /* Definido como menor para os cards em segundo plano */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-    transform: scale(1.05);
+.card.active {
+    opacity: 1;
+    transform: scale(1.1); /* Card em destaque */
+    z-index: 2;
 }
 
 .card img {
@@ -112,6 +127,27 @@ header .sub-heading {
 .card p {
     color: #4f6980;
 }
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
 
 /* Depoimentos */
 .testimonials-grid {
@@ -283,6 +319,24 @@ footer {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
+}
+.contact-btn {
+    background-color: #25d366; /* Cor do WhatsApp */
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+.contact-btn:hover {
+    background-color: #128c7e; /* Cor um pouco mais escura para o efeito hover */
+    transform: scale(1.05);
 }
 
 

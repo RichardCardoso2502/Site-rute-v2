@@ -12,14 +12,17 @@
 
 <body>
     <aside class="floating-menu">
-        <a href="https://wa.me/5511999999999" target="_blank" class="whatsapp">
+        <a href="https://wa.me/551193374220" target="_blank" class="whatsapp">
             <img src="imagens/whatsapp-icon.svg" alt="WhatsApp">
         </a>
     </aside>
 
     <header>
-        <h1 class="main-heading">Bem-vindo ao Espaço Rute Cruz Esteves</h1>
+        <h1 class="main-heading">Bem-vindo ao De Bem Com as Emoções</h1>
         <p class="sub-heading">Cuidando da sua saúde mental com profissionalismo e acolhimento.</p>
+        <button class="contact-btn" onclick="window.location.href='https://wa.me/551193374220'">
+            Clique aqui para falar comigo
+        </button>
     </header>
 
     <main>
@@ -33,24 +36,29 @@
 
         <section id="services" class="section fade-in">
             <h2 class="section-title">Serviços Prestados</h2>
-            <div class="cards">
-                <div class="card">
-                    <img src="imagens/terapia-individual.jpg" alt="Terapia Individual">
-                    <h3>Terapia Individual</h3>
-                    <p>Ajuda personalizada para você superar seus desafios emocionais.</p>
+            <div class="carousel">
+                <div class="cards-container">
+                    <div class="card">
+                        <img src="imagens/terapia-individual.jpg" alt="Terapia Individual">
+                        <h3>Terapia Individual</h3>
+                        <p>Ajuda personalizada para você superar seus desafios emocionais.</p>
+                    </div>
+                    <div class="card">
+                        <img src="imagens/terapia-casal.jpg" alt="Terapia de Casal">
+                        <h3>Terapia de Casal</h3>
+                        <p>Fortaleça a conexão e o diálogo no relacionamento.</p>
+                    </div>
+                    <div class="card">
+                        <img src="imagens/terapia-familiar.jpg" alt="Terapia Familiar">
+                        <h3>Terapia Familiar</h3>
+                        <p>Construindo relações familiares mais saudáveis.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <img src="imagens/terapia-casal.jpg" alt="Terapia de Casal">
-                    <h3>Terapia de Casal</h3>
-                    <p>Fortaleça a conexão e o diálogo no relacionamento.</p>
-                </div>
-                <div class="card">
-                    <img src="imagens/terapia-familiar.jpg" alt="Terapia Familiar">
-                    <h3>Terapia Familiar</h3>
-                    <p>Construindo relações familiares mais saudáveis.</p>
-                </div>
+                <button class="prev" onclick="moveCarousel(-1)">&#10094;</button>
+                <button class="next" onclick="moveCarousel(1)">&#10095;</button>
             </div>
         </section>
+               
 
         <section id="testimonials" class="section fade-in">
             <h2 class="section-title">Depoimentos</h2>

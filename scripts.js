@@ -77,3 +77,31 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         });
 });
 
+let currentIndex = 0;
+const cards = document.querySelectorAll('.card');
+const cardsContainer = document.querySelector('.cards-container');
+
+function moveCarousel(direction) {
+    // Remove a classe 'active' do card atual
+    cards[currentIndex].classList.remove('active');
+
+    // Atualiza o índice
+    currentIndex += direction;
+
+    // Verifica se o índice está fora do intervalo e ajusta
+    if (currentIndex < 0) {
+        currentIndex = cards.length - 1;
+    } else if (currentIndex >= cards.length) {
+        currentIndex = 0;
+    }
+
+    // Adiciona a classe 'active' ao novo card
+    cards[currentIndex].classList.add('active');
+
+    // Move o card ativo para o final da fila após a rotação
+    const offset = -currentIndex * 250; // Ajuste para a largura do card (250px) + qualquer gap
+    cardsContainer.style.transform = `translateX(${offset}px)`;
+}
+
+// Adiciona a classe 'active' ao primeiro card por padrão
+cards[currentIndex].classList.add('active');
