@@ -1,0 +1,288 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f8ff; /* Azul muito suave */
+    color: #2a4d69; /* Azul escuro */
+    line-height: 1.6;
+}
+
+/* Menu flutuante */
+.floating-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.floating-menu .whatsapp img {
+    width: 50px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.floating-menu .whatsapp img:hover {
+    transform: scale(1.2);
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #e6f2ff; /* Fundo azul claro */
+}
+
+header .main-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a3d5c; /* Azul mais escuro */
+    animation: fadeIn 1s ease-out;
+}
+
+header .sub-heading {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+/* Sessões */
+.section {
+    padding: 2rem 1rem;
+    text-align: center;
+    animation: fadeInUp 1.2s ease-in-out;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #1a3d5c;
+    margin-bottom: 1rem;
+}
+
+/* Sobre mim */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content img {
+    width: 150px;
+    border-radius: 50%;
+    border: 3px solid #87cefa; /* Azul claro */
+}
+
+/* Cartões de serviço */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.card {
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card h3 {
+    margin: 0.8rem 0;
+    color: #1a3d5c;
+}
+
+.card p {
+    color: #4f6980;
+}
+
+/* Depoimentos */
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.testimonial {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.rating {
+    margin-top: 0.5rem;
+    color: #ffcc00; /* Amarelo para estrelas */
+}
+
+/* Contador */
+.counter {
+    font-size: 1.2rem; /* Fonte menor para o contador */
+    color: #2a4d69; /* Cor do texto */
+    margin-bottom: 15px; /* Menos espaçamento entre os contadores */
+    padding: 10px; /* Reduzido para um layout mais compacto */
+    border: 1px solid #2a4d69; /* Borda fina */
+    border-radius: 8px; /* Borda arredondada */
+    text-align: center; /* Centraliza o texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter p {
+    font-size: 1.2rem; /* Tamanho da fonte do texto */
+    font-weight: bold; /* Destaque no texto */
+    margin: 0; /* Remove a margem padrão */
+    white-space: nowrap; /* Impede a quebra de linha */
+}
+
+.counter span {
+    font-size: 2rem; /* Tamanho do número */
+    color: #2a4d69; /* Cor que destaca o número */
+    margin-right: 5px; /* Espaçamento entre o número e o texto */
+}
+
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form label {
+    font-weight: bold;
+    color: #004080; /* Azul suave */
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.contact-form button {
+    background-color: #004080; /* Azul suave */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.contact-form button:hover {
+    transform: scale(1.05);
+    background-color: #003060; /* Azul mais escuro */
+}
+
+
+/* Contato */
+.social-links {
+    display: flex;
+    gap: 15px; /* Espaçamento entre os botões */
+    margin-bottom: 30px; /* Espaçamento abaixo dos botões */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    margin-top: 10px; /* Ajuste o valor conforme necessário */
+}
+
+.social-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #004080; /* Cor azul */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.social-btn:hover {
+    background-color: #003060; /* Azul mais escuro */
+    transform: scale(1.1);
+}
+
+.form-container {
+    padding: 20px 0; /* Espaçamento acima e abaixo do formulário */
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: #e6f2ff;
+    margin-top: 2rem;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+    }
+}
+
+/* Adicionando um fade-in para elementos */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+

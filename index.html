@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site da psicóloga Rute Cruz Esteves">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Psicóloga Rute Cruz Esteves</title>
+</head>
+
+<body>
+    <aside class="floating-menu">
+        <a href="https://wa.me/5511999999999" target="_blank" class="whatsapp">
+            <img src="imagens/whatsapp-icon.svg" alt="WhatsApp">
+        </a>
+    </aside>
+
+    <header>
+        <h1 class="main-heading">Bem-vindo ao Espaço Rute Cruz Esteves</h1>
+        <p class="sub-heading">Cuidando da sua saúde mental com profissionalismo e acolhimento.</p>
+    </header>
+
+    <main>
+        <section id="about" class="section fade-in">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="about-content">
+                <img src="imagens/rute-cruz.jpg" alt="Foto de Rute Cruz Esteves" class="about-image">
+                <p>Olá, sou a psicóloga Rute Cruz Esteves, especializada em ajudar indivíduos a superarem desafios emocionais e alcançarem o equilíbrio em suas vidas. Meu trabalho é guiado pela ética, empatia e pelo compromisso em oferecer o melhor suporte aos meus pacientes.</p>
+            </div>
+        </section>
+
+        <section id="services" class="section fade-in">
+            <h2 class="section-title">Serviços Prestados</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="imagens/terapia-individual.jpg" alt="Terapia Individual">
+                    <h3>Terapia Individual</h3>
+                    <p>Ajuda personalizada para você superar seus desafios emocionais.</p>
+                </div>
+                <div class="card">
+                    <img src="imagens/terapia-casal.jpg" alt="Terapia de Casal">
+                    <h3>Terapia de Casal</h3>
+                    <p>Fortaleça a conexão e o diálogo no relacionamento.</p>
+                </div>
+                <div class="card">
+                    <img src="imagens/terapia-familiar.jpg" alt="Terapia Familiar">
+                    <h3>Terapia Familiar</h3>
+                    <p>Construindo relações familiares mais saudáveis.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="section fade-in">
+            <h2 class="section-title">Depoimentos</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <img src="imagens/paciente1.jpg" alt="Paciente 1">
+                    <p>"A Rute foi essencial para o meu processo de superação. Serei eternamente grata!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="testimonial">
+                    <img src="imagens/paciente2.jpg" alt="Paciente 2">
+                    <p>"Profissional incrível! Recomendo de olhos fechados."</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="testimonial">
+                    <img src="imagens/paciente3.jpg" alt="Paciente 3">
+                    <p>"Atendimento acolhedor e muito eficiente. Melhor escolha que fiz!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <div class="testimonial">
+                    <img src="imagens/paciente4.jpg" alt="Paciente 4">
+                    <p>"Mudou minha vida. Agradeço muito!"</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="counter" class="section fade-in">
+            <h2 class="section-title">Resultados</h2>
+            <div class="counter">
+                <p><span id="patients-counter" data-target="1000">+1000</span> pacientes atendidos</p>
+            </div>
+            <div class="counter">
+                <p><span id="sessions-counter" data-target="500">+500</span> sessões realizadas</p>
+            </div>
+            <div class="counter">
+                <p><span id="satisfaction-counter" data-target="95">95</span>% de satisfação dos pacientes</p>
+            </div>
+            <div class="counter">
+                <p><span id="satisfaction-rating-counter" data-target="90">90</span>% de taxa de satisfação</p>
+            </div>
+        </section>        
+
+        <section id="contact" class="section fade-in">
+            <h2 class="section-title">Contato</h2>
+            <p>Entre em contato pelas minhas redes sociais:</p>
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank" class="social-btn">Facebook</a>
+                <a href="https://instagram.com" target="_blank" class="social-btn">Instagram</a>
+                <a href="https://youtube.com" target="_blank" class="social-btn">YouTube</a>
+            </div>
+            <div class="form-container">
+                <p>Ou se preferir, preencha o formulário abaixo para entrar em contato por e-mail:</p>
+                <form id="contact-form" class="contact-form">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+                
+                    <label for="message">Mensagem:</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Sua mensagem" required></textarea>
+                
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Rute Cruz Esteves. Todos os direitos reservados.</p>
+    </footer>
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "2qiBtPUCZEbWJ2fGW",
+      });
+   })();
+</script>
+    <script src="scripts.js"></script>
+
+</body>
+
+</html>
