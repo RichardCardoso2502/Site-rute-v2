@@ -77,31 +77,66 @@ document.getElementById('contact-form').addEventListener('submit', function(even
         });
 });
 
-let currentIndex = 0;
-const cards = document.querySelectorAll('.card');
-const cardsContainer = document.querySelector('.cards-container');
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.cards');
+    const cards = document.querySelectorAll('.card');
+    const cardWidth = cards[0].offsetWidth + 20; // Considerando espaçamento
+    let activeIndex = 0;
 
-function moveCarousel(direction) {
-    // Remove a classe 'active' do card atual
-    cards[currentIndex].classList.remove('active');
+    // Clona os primeiros e últimos cards para criar um efeito de infinito
+    const firstCardClone = cards[0].cloneNode(true);
+    const lastCardClone = cards[cards.length - 1].cloneNode(true);
+    carousel.appendChild(firstCardClone);
+    carousel.insertBefore(lastCardClone, cards[0]);
 
-    // Atualiza o índice
-    currentIndex += direction;
+    // Atualiza os cards e reposiciona o carrossel
+    function updateCarousel() {
+        cards.forEach((card, index) => {
+            card.classList.remove('active');
+            if (index === activeIndex) {
+                card.classList.add('active');
+            }
+        });
 
-    // Verifica se o índice está fora do intervalo e ajusta
-    if (currentIndex < 0) {
-        currentIndex = cards.length - 1;
-    } else if (currentIndex >= cards.length) {
-        currentIndex = 0;
+        const offset = -activeIndex * cardWidth;
+        carousel.style.transform = `translateX(${offset}px)`;
     }
 
-    // Adiciona a classe 'active' ao novo card
-    cards[currentIndex].classList.add('active');
+    // Mover para o próximo card
+    document.querySelector('.carousel-nav.right').addEventListener('click', () => {
+        activeIndex++;
+        if (activeIndex >= cards.length - 1) {
+            // Redefine o índice quando atinge o clone final
+            activeIndex = 0;
+            carousel.style.transition = 'none'; // Desabilita a transição para reposicionar rapidamente
+            const offset = -activeIndex * cardWidth;
+            carousel.style.transform = `translateX(${offset}px)`;
+            // Retorna a transição
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+            }, 50);
+        }
+        updateCarousel();
+    });
 
-    // Move o card ativo para o final da fila após a rotação
-    const offset = -currentIndex * 250; // Ajuste para a largura do card (250px) + qualquer gap
-    cardsContainer.style.transform = `translateX(${offset}px)`;
-}
+    // Mover para o card anterior
+    document.querySelector('.carousel-nav.left').addEventListener('click', () => {
+        activeIndex--;
+        if (activeIndex < 0) {
+            // Redefine o índice quando atinge o clone inicial
+            activeIndex = cards.length - 3; // Um menos que a posição do clone inicial
+            carousel.style.transition = 'none'; // Desabilita a transição para reposicionar rapidamente
+            const offset = -activeIndex * cardWidth;
+            carousel.style.transform = `translateX(${offset}px)`;
+            // Retorna a transição
+            setTimeout(() => {
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+            }, 50);
+        }
+        updateCarousel();
+    });
 
-// Adiciona a classe 'active' ao primeiro card por padrão
-cards[currentIndex].classList.add('active');
+    // Inicializa o carrossel com o primeiro card ativo
+    updateCarousel();
+});
+

@@ -81,37 +81,30 @@ header .sub-heading {
 
 /* Cartões de serviço */
 .carousel {
-    position: relative;
     overflow: hidden;
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin: 20px 0;
 }
 
-.cards-container {
+.carousel .cards {
     display: flex;
     transition: transform 0.5s ease-in-out;
-    gap: 0; /* Reduzido para que os cards fiquem próximos */
+    gap: 10px; /* Ajuste o espaçamento entre os cards */
 }
 
 .card {
+    flex: 0 0 280px;
+    margin: 0 10px; /* Ajuste para o espaçamento entre os cards */
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
-    width: 250px; /* Tamanho menor para caber mais cards */
     text-align: center;
-    opacity: 0.7;
-    transform: scale(0.95); /* Para o efeito de menor escala */
-    z-index: 1; /* Definido como menor para os cards em segundo plano */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card.active {
-    opacity: 1;
-    transform: scale(1.1); /* Card em destaque */
-    z-index: 2;
+    position: relative;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(100%);
+    z-index: 1;
 }
 
 .card img {
@@ -128,23 +121,36 @@ header .sub-heading {
     color: #4f6980;
 }
 
-.prev, .next {
+.card.active {
+    transform: scale(1.2);
+    filter: brightness(120%);
+    z-index: 2; /* Destaque sobre os outros */
+}
+
+.card:not(.active) {
+    transform: scale(0.9);
+    filter: brightness(80%); /* Escurece os outros cards */
+}
+
+/* Botões de navegação */
+.carousel-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: #ffffff;
     border: none;
-    padding: 10px;
+    padding: 0.5rem;
     cursor: pointer;
     z-index: 3;
+    font-size: 1.5rem;
 }
 
-.prev {
+.carousel-nav.left {
     left: 10px;
 }
 
-.next {
+.carousel-nav.right {
     right: 10px;
 }
 

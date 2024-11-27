@@ -37,8 +37,9 @@
         <section id="services" class="section fade-in">
             <h2 class="section-title">Serviços Prestados</h2>
             <div class="carousel">
-                <div class="cards-container">
-                    <div class="card">
+                <button class="carousel-nav left" aria-label="Previous">&#9664;</button>
+                <div class="cards">
+                    <div class="card active">
                         <img src="imagens/terapia-individual.jpg" alt="Terapia Individual">
                         <h3>Terapia Individual</h3>
                         <p>Ajuda personalizada para você superar seus desafios emocionais.</p>
@@ -54,12 +55,10 @@
                         <p>Construindo relações familiares mais saudáveis.</p>
                     </div>
                 </div>
-                <button class="prev" onclick="moveCarousel(-1)">&#10094;</button>
-                <button class="next" onclick="moveCarousel(1)">&#10095;</button>
+                <button class="carousel-nav right" aria-label="Next">&#9654;</button>
             </div>
         </section>
-               
-
+        
         <section id="testimonials" class="section fade-in">
             <h2 class="section-title">Depoimentos</h2>
             <div class="testimonials-grid">
