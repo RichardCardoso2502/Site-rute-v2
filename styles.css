@@ -32,9 +32,10 @@ body {
 
 /* Cabeçalho */
 /* Estilização do header */
+/* Estilização do header */
 header {
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem; /* Reduzido o padding para deixar mais estreito */
     background: linear-gradient(135deg, #e6f2ff, #99ccff); /* Gradiente suave */
     border-bottom: 3px solid #1a3d5c; /* Linha fina no fundo */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve para destaque */
@@ -42,28 +43,28 @@ header {
 
 /* Título principal */
 header .main-heading {
-    font-size: 3rem; /* Aumenta o tamanho do título */
+    font-size: 2.2rem; /* Reduzido o tamanho do título */
     font-weight: 700;
     color: #1a3d5c;
-    letter-spacing: 2px; /* Espaçamento entre letras */
-    margin-bottom: 1rem;
+    letter-spacing: 1px; /* Menos espaçamento entre as letras */
+    margin-bottom: 0.8rem; /* Menos margem abaixo do título */
     animation: fadeIn 1.5s ease-out; /* Animação suave para entrada */
 }
 
 /* Subtítulo */
 header .sub-heading {
-    font-size: 1.4rem;
+    font-size: 1.1rem; /* Reduzido o tamanho do subtítulo */
     font-weight: 400;
     margin-top: 0.5rem;
     color: #333;
-    line-height: 1.5;
-    margin-bottom: 2rem; /* Espaçamento maior para separar do botão */
+    line-height: 1.4;
+    margin-bottom: 1.5rem; /* Menos espaçamento abaixo do subtítulo */
 }
 
 /* Estilização do botão */
 .contact-btn {
-    padding: 0.8rem 2rem;
-    font-size: 1.1rem;
+    padding: 0.6rem 1.8rem; /* Botão menor */
+    font-size: 1rem; /* Fonte do botão menor */
     background-color: #1a3d5c; /* Azul escuro */
     color: white;
     border: none;
@@ -74,7 +75,7 @@ header .sub-heading {
 
 .contact-btn:hover {
     background-color: #15507f; /* Azul mais escuro ao passar o mouse */
-    transform: translateY(-5px); /* Levanta o botão ao passar o mouse */
+    transform: translateY(-3px); /* Levanta menos o botão */
 }
 
 /* Animação de fade-in */
@@ -88,6 +89,7 @@ header .sub-heading {
         transform: translateY(0);
     }
 }
+
 
 /* Sessões */
 .section {
