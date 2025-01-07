@@ -31,23 +31,62 @@ body {
 }
 
 /* Cabeçalho */
+/* Estilização do header */
 header {
     text-align: center;
-    padding: 2rem 1rem;
-    background: #e6f2ff; /* Fundo azul claro */
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #e6f2ff, #99ccff); /* Gradiente suave */
+    border-bottom: 3px solid #1a3d5c; /* Linha fina no fundo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve para destaque */
 }
 
+/* Título principal */
 header .main-heading {
-    font-size: 2.5rem;
+    font-size: 3rem; /* Aumenta o tamanho do título */
     font-weight: 700;
-    color: #1a3d5c; /* Azul mais escuro */
-    animation: fadeIn 1s ease-out;
+    color: #1a3d5c;
+    letter-spacing: 2px; /* Espaçamento entre letras */
+    margin-bottom: 1rem;
+    animation: fadeIn 1.5s ease-out; /* Animação suave para entrada */
 }
 
+/* Subtítulo */
 header .sub-heading {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 400;
     margin-top: 0.5rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 2rem; /* Espaçamento maior para separar do botão */
+}
+
+/* Estilização do botão */
+.contact-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    background-color: #1a3d5c; /* Azul escuro */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-btn:hover {
+    background-color: #15507f; /* Azul mais escuro ao passar o mouse */
+    transform: translateY(-5px); /* Levanta o botão ao passar o mouse */
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Sessões */
