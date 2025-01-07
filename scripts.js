@@ -76,3 +76,66 @@ document.getElementById('contact-form').addEventListener('submit', function(even
             alert('Erro ao enviar a mensagem: ' + error.text);
         });
 });
+
+// Função para abrir o modal e carregar o conteúdo do serviço
+function openModal(serviceId) {
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modal-title');
+    const description = document.getElementById('modal-description');
+
+    // Definindo o conteúdo do modal baseado no serviço clicado
+    if (serviceId === 'service1') {
+        title.textContent = 'Psicoterapia Individual';
+        description.textContent = 'Atendimento presencial e online voltado para adultos que desejam compreender e transformar suas emoções. Ofereço suporte para lidar com ansiedade, depressão, baixa autoestima, conflitos internos e outros desafios emocionais, ajudando você a construir uma vida mais equilibrada, saudável e alinhada aos seus objetivos pessoais.';
+    } else if (serviceId === 'service2') {
+        title.textContent = 'Suporte para Crises Emocionais';
+        description.textContent = 'Atendimento emergencial para ajudar a manejar momentos de crise emocional ou transições difíceis.';
+    } else if (serviceId === 'service3') {
+        title.textContent = 'Desenvolvimento de Inteligência Emocional';
+        description.textContent = 'Desenvolva habilidades para gerenciar emoções, ampliar o repertório emocional e melhorar os relacionamentos interpessoais.';
+    } else if (serviceId === 'service4') {
+        title.textContent = 'Palestras e Eventos';
+        description.textContent = 'Palestras para empresas, escolas ou comunidades sobre temas como saúde mental, inteligência emocional, autoconhecimento e gestão do estresse.';
+    }
+
+    modal.style.display = 'flex'; // Exibe o modal
+}
+
+// Função para fechar o modal
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none'; // Oculta o modal
+}
+
+// Seleciona todos os elementos com a classe 'read-more'
+const readMoreLinks = document.querySelectorAll('.read-more');
+
+readMoreLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o comportamento padrão do link (não vai para o topo)
+        
+        // Encontra o card do depoimento mais próximo
+        const testimonial = link.closest('.testimonial');
+        const testimonialText = testimonial.querySelector('p');
+        
+        // Verifica se o card já está expandido
+        if (testimonial.classList.contains('expanded')) {
+            // Recolhe o texto e volta ao formato inicial
+            testimonialText.style.height = '120px'; // Reseta a altura do parágrafo
+            link.textContent = 'Leia mais'; // Muda o texto do link
+            testimonial.classList.remove('expanded');
+        } else {
+            // Expande o texto
+            testimonialText.style.height = 'auto'; // Deixa o texto expandir totalmente
+            link.textContent = 'Leia menos'; // Muda o texto do link
+            testimonial.classList.add('expanded');
+        }
+    });
+});
+
+
+
+
+
+
+

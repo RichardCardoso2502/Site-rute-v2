@@ -36,49 +36,56 @@
         </section>
 
         <section class="services-section">
-            <div class="service-card">
+            <div class="service-card" onclick="openModal('service1')">
                 <img src="imagens/servicos/imagem1.jpg" alt="Descrição do serviço 1">
                 <h3>Psicoterapia Individual</h3>
-                <p>Atendimento presencial e online voltado para adultos que desejam compreender e transformar suas emoções. Ofereço suporte para lidar com ansiedade, depressão, baixa autoestima, conflitos internos e outros desafios emocionais, ajudando você a construir uma vida mais equilibrada, saudável e alinhada aos seus objetivos pessoais.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="openModal('service2')">
                 <img src="imagens/servicos/imagem2.jpg" alt="Descrição do serviço 2">
                 <h3>Suporte para Crises Emocionais</h3>
-                <p>Atendimento emergencial para ajudar a manejar momentos de crise emocional ou transições difíceis.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="openModal('service3')">
                 <img src="imagens/servicos/imagem3.jpg" alt="Descrição do serviço 3">
-                <h3>Sessões Focadas em Inteligência Emocional</h3>
-                <p>Desenvolvimento de habilidades para gerenciar emoções, ampliar o repertório emocional e melhorar os relacionamentos interpessoais.</p>
+                <h3>Desenvolvimento de Inteligência Emocional</h3>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="openModal('service4')">
                 <img src="imagens/servicos/imagem4.jpg" alt="Descrição do serviço 4">
                 <h3>Palestras e Eventos</h3>
-                <p>Palestras para empresas, escolas ou comunidades sobre temas como saúde mental, inteligência emocional, autoconhecimento e gestão do estresse.</p>
             </div>
-            <!-- Adicione mais cards conforme necessário -->
-        </section>           
+        
+            <!-- Modal Popup -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-description"></p>
+                </div>
+            </div>
+        </section>
         
         <section id="testimonials" class="section fade-in">
             <h2 class="section-title">Depoimentos</h2>
             <div class="testimonials-grid">
                 <div class="testimonial">
-                    <p>"Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute."</p>
+                    <p class="testimonial-text" data-full-text="Se descobrir é, descortinar algo tão formidável...">"Se descobrir é, descortinar algo tão formidável..."</p>
                     <span class="testimonial-author">– W.</span>
                     <div class="rating">★★★★★</div>
+                    <a href="#" class="read-more">Leia mais</a>
                 </div> 
                 <div class="testimonial">
-                    <p>"Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏"</p>
+                    <p class="testimonial-text" data-full-text="Texto completo do depoimento 2...">"Rute muito obrigada… Sem palavras pela sessão..."</p>
                     <span class="testimonial-author">– D.</span>
                     <div class="rating">★★★★★</div>
+                    <a href="#" class="read-more">Leia mais</a>
                 </div>
                 <div class="testimonial">
-                    <p>"Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏"</p>
+                    <p class="testimonial-text" data-full-text="Texto completo do depoimento 3...">"Oi Rute, segue um breve feedback..."</p>
                     <span class="testimonial-author">– C.</span>
                     <div class="rating">★★★★★</div>
+                    <a href="#" class="read-more">Leia mais</a>
                 </div>
             </div>
-        </section>              
+        </section>
 
         <section id="counter" class="section fade-in">
             <h2 class="section-title">Resultados</h2>

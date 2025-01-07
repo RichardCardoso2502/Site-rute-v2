@@ -128,7 +128,7 @@ header .sub-heading {
     transform: scale(1.1);  /* Aumenta a imagem 10% ao passar o mouse */
 }
 
-/* Sessão de serviços */
+/* Estilos da seção de serviços */
 .services-section {
     display: flex;
     flex-wrap: wrap;
@@ -137,36 +137,104 @@ header .sub-heading {
     padding: 2rem 1rem;
 }
 
-/* Animação ao passar o mouse sobre os cards */
+/* Estilo dos cards */
 .service-card {
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
-    width: 280px;
+    width: 280px; /* Largura fixa para os cards */
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinha os itens no topo, eliminando o espaço indesejado */
+    overflow: hidden;
+    margin: 0; /* Garantir que o card não tenha margem extra */
+    height: auto; /* Deixa a altura do card se ajustar automaticamente ao conteúdo */
 }
 
+/* Ajusta as imagens dentro dos cards */
 .service-card img {
     width: 100%;
+    height: 180px; /* Altura fixa para a imagem */
+    object-fit: cover; /* Faz com que a imagem cubra a área sem distorcer */
+    object-position: top; /* Garante que o topo da imagem seja exibido */
     border-radius: 8px;
+    margin-bottom: 8px; /* Espaço pequeno entre a imagem e o título */
 }
 
+
+/* Título */
 .service-card h3 {
-    margin: 0.8rem 0;
+    margin: 0; /* Elimina qualquer margem do título */
     color: #1a3d5c;
+    display: flex;
+    align-items: center; /* Alinha o título verticalmente */
+    justify-content: center; /* Garante que o título fique centralizado */
+    min-height: 50px; /* Garante uma altura mínima para o título */
 }
 
+/* Descrição */
 .service-card p {
     color: #4f6980;
     margin: 0.5rem 0 1rem 0;
+    font-size: 0.9rem; /* Ajuste o tamanho da fonte para garantir que o texto caiba bem no card */
+    flex-grow: 0; /* Garante que a descrição não ocupe espaço extra */
 }
 
 .service-card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    background-color: #e6f7ff; /* Azul clarinho */
+    background-color: #e6f7ff;
+}
+
+/* Estilos do Modal */
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Tela escurecida */
+    z-index: 1000; /* Garante que o modal fique acima de outros elementos */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative; /* Para posicionar o X dentro do modal */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2rem;
+    color: #1a3d5c;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.close-btn:hover {
+    color: #ff6f61; /* Cor de hover para o X */
+}
+
+.modal h3 {
+    color: #1a3d5c;
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    color: #4f6980;
 }
 
 /* Depoimentos */
@@ -184,32 +252,54 @@ header .sub-heading {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 100%;  /* Garante que o cartão tenha altura definida */
+    justify-content: flex-start;
+    overflow: hidden; /* Esconde conteúdo extra */
+    transition: all 0.3s ease-in-out; /* Transição suave */
+    height: auto; /* Permite que o card se expanda */
+    max-height: 300px; /* Inicialmente limita a altura */
+}
+
+.testimonial.expanded {
+    max-height: none; /* Remove a limitação de altura quando expandido */
 }
 
 .testimonial p {
     font-size: 1.1rem;
     color: #333;
     margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 120px; /* Limita o texto exibido */
+}
+
+.testimonial.expanded p {
+    height: auto; /* Deixa o parágrafo expandir */
 }
 
 /* Nome das testemunhas */
 .testimonial-author {
-    display: block; /* Garante que o nome fique em uma nova linha */
-    margin-top: 5px; /* Espaçamento entre o texto e o nome */
-    font-size: 0.9rem; /* Tamanho de fonte menor */
-    font-style: italic; /* Estilo em itálico para destacar como uma citação */
-    color: #555; /* Cor neutra */
-    text-align: right; /* Alinha o nome à direita */
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #555;
+    text-align: right;
 }
 
 .rating {
     font-size: 1.2rem;
-    color: #ffd700; /* Cor dourada para as estrelas */
+    color: #ffd700;
+}
+
+.read-more {
+    color: #1a3d5c;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-decoration: underline;
+    display: block;
 }
 
 /* Contador */
