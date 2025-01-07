@@ -74,111 +74,101 @@ header .sub-heading {
 }
 
 .about-content img {
-    width: 150px;
+    width: 250px;  /* Aumenta a largura da imagem */
+    height: 250px; /* Garantir que a altura também aumente proporcionalmente */
     border-radius: 50%;
     border: 3px solid #87cefa; /* Azul claro */
+    object-fit: cover;  /* Garante que a imagem mantenha uma boa proporção */
+    transition: transform 0.3s ease;  /* Transição suave para o efeito de zoom */
 }
 
-/* Cartões de serviço */
-.carousel {
-    overflow: hidden;
-    position: relative;
+/* Efeito de zoom ao passar o mouse */
+.about-content img:hover {
+    transform: scale(1.1);  /* Aumenta a imagem 10% ao passar o mouse */
+}
+
+/* Sessão de serviços */
+.services-section {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
 }
 
-.carousel .cards {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    gap: 10px; /* Ajuste o espaçamento entre os cards */
-}
-
-.card {
-    flex: 0 0 280px;
-    margin: 0 10px; /* Ajuste para o espaçamento entre os cards */
+/* Animação ao passar o mouse sobre os cards */
+.service-card {
     background: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
-    position: relative;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: brightness(100%);
-    z-index: 1;
+    width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
-.card img {
+.service-card img {
     width: 100%;
     border-radius: 8px;
 }
 
-.card h3 {
+.service-card h3 {
     margin: 0.8rem 0;
     color: #1a3d5c;
 }
 
-.card p {
+.service-card p {
     color: #4f6980;
+    margin: 0.5rem 0 1rem 0;
 }
 
-.card.active {
-    transform: scale(1.2);
-    filter: brightness(120%);
-    z-index: 2; /* Destaque sobre os outros */
+.service-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background-color: #e6f7ff; /* Azul clarinho */
 }
-
-.card:not(.active) {
-    transform: scale(0.9);
-    filter: brightness(80%); /* Escurece os outros cards */
-}
-
-/* Botões de navegação */
-.carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    z-index: 3;
-    font-size: 1.5rem;
-}
-
-.carousel-nav.left {
-    left: 10px;
-}
-
-.carousel-nav.right {
-    right: 10px;
-}
-
 
 /* Depoimentos */
 .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .testimonial {
-    background: #ffffff;
-    padding: 1rem;
-    border-radius: 8px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;  /* Garante que o cartão tenha altura definida */
 }
 
-.testimonial img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 0.5rem;
+.testimonial p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Nome das testemunhas */
+.testimonial-author {
+    display: block; /* Garante que o nome fique em uma nova linha */
+    margin-top: 5px; /* Espaçamento entre o texto e o nome */
+    font-size: 0.9rem; /* Tamanho de fonte menor */
+    font-style: italic; /* Estilo em itálico para destacar como uma citação */
+    color: #555; /* Cor neutra */
+    text-align: right; /* Alinha o nome à direita */
 }
 
 .rating {
-    margin-top: 0.5rem;
-    color: #ffcc00; /* Amarelo para estrelas */
+    font-size: 1.2rem;
+    color: #ffd700; /* Cor dourada para as estrelas */
 }
 
 /* Contador */
@@ -207,7 +197,6 @@ header .sub-heading {
     color: #2a4d69; /* Cor que destaca o número */
     margin-right: 5px; /* Espaçamento entre o número e o texto */
 }
-
 
 .contact-form {
     max-width: 600px;
@@ -247,7 +236,6 @@ header .sub-heading {
     transform: scale(1.05);
     background-color: #003060; /* Azul mais escuro */
 }
-
 
 /* Contato */
 .social-links {
@@ -326,6 +314,7 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+
 .contact-btn {
     background-color: #25d366; /* Cor do WhatsApp */
     color: white;
@@ -344,5 +333,3 @@ footer {
     background-color: #128c7e; /* Cor um pouco mais escura para o efeito hover */
     transform: scale(1.05);
 }
-
-
