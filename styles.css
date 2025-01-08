@@ -246,87 +246,139 @@ header .sub-heading {
 }
 
 .testimonial {
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    overflow: hidden; /* Esconde conteúdo extra */
-    transition: all 0.3s ease-in-out; /* Transição suave */
-    height: auto; /* Permite que o card se expanda */
-    max-height: 300px; /* Inicialmente limita a altura */
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* Transição suave ao expandir */
+    overflow: hidden; /* Evita problemas de conteúdo cortado */
 }
 
-.testimonial.expanded {
-    max-height: none; /* Remove a limitação de altura quando expandido */
-}
-
-.testimonial p {
-    font-size: 1.1rem;
+.testimonial-text {
+    font-size: 1rem;
+    line-height: 1.5;
     color: #333;
     margin-bottom: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
-    height: 120px; /* Limita o texto exibido */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limita a exibição a 4 linhas */
+    -webkit-box-orient: vertical;
 }
 
-.testimonial.expanded p {
-    height: auto; /* Deixa o parágrafo expandir */
+.testimonial.expanded .testimonial-text {
+    overflow: visible; /* Permite o texto expandir */
+    text-overflow: unset;
+    display: block; /* Remove a limitação de linhas */
 }
 
-/* Nome das testemunhas */
 .testimonial-author {
-    display: block;
-    margin-top: 5px;
+    margin-top: 10px;
     font-size: 0.9rem;
     font-style: italic;
     color: #555;
     text-align: right;
 }
 
-.rating {
-    font-size: 1.2rem;
-    color: #ffd700;
-}
-
 .read-more {
-    color: #1a3d5c;
+    margin-top: 5px; /* Reduz o espaço acima */
+    margin-bottom: 0; /* Remove o espaço abaixo */
+    color: #004080; /* Cor do texto */
     cursor: pointer;
-    font-size: 0.9rem;
-    margin-top: 10px;
-    text-decoration: underline;
-    display: block;
+    font-size: 0.8rem; /* Fonte menor */
+    text-decoration: underline; /* Estilo de link sublinhado */
+    border: none; /* Remove bordas */
+    background: none; /* Remove fundo */
+    display: inline-block; /* Garante que seja tratado como texto */
+    text-align: right; /* Alinha o texto à direita */
+    float: right; /* Posiciona o botão no canto direito */
 }
 
-/* Contador */
-.counter {
-    font-size: 1.2rem; /* Fonte menor para o contador */
-    color: #2a4d69; /* Cor do texto */
-    margin-bottom: 15px; /* Menos espaçamento entre os contadores */
-    padding: 10px; /* Reduzido para um layout mais compacto */
-    border: 1px solid #2a4d69; /* Borda fina */
-    border-radius: 8px; /* Borda arredondada */
-    text-align: center; /* Centraliza o texto */
+.read-more:hover {
+    color: #003060; /* Cor mais escura no hover */
+}
+
+.produtos-section {
+    padding: 2rem 1rem;
+    background-color: #f9f9f9; /* Fundo claro para destacar a seção */
+    text-align: center;
+}
+
+.produto {
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
 }
 
-.counter p {
-    font-size: 1.2rem; /* Tamanho da fonte do texto */
-    font-weight: bold; /* Destaque no texto */
-    margin: 0; /* Remove a margem padrão */
-    white-space: nowrap; /* Impede a quebra de linha */
+.produto-descricao {
+    flex: 1 1 60%; /* O texto ocupa mais espaço */
+    text-align: left; /* Alinhamento do texto à esquerda */
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #2a4d69;
 }
 
-.counter span {
-    font-size: 2rem; /* Tamanho do número */
-    color: #2a4d69; /* Cor que destaca o número */
-    margin-right: 5px; /* Espaçamento entre o número e o texto */
+.produto-descricao p {
+    margin-bottom: 1.5rem;
+}
+
+.produto-imagem {
+    flex: 1 1 35%; /* A imagem ocupa menos espaço */
+    text-align: center;
+}
+
+.produto-imagem img {
+    width: 60%; /* Definindo a largura da imagem como 60% */
+    height: auto; /* Manter a proporção da imagem */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comprar-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #004080; /* Azul escuro */
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.comprar-btn:hover {
+    background-color: #003060; /* Azul mais escuro no hover */
+    transform: scale(1.05); /* Efeito de zoom no hover */
+}
+
+/* Media query para telas pequenas (mobile) */
+@media (max-width: 768px) {
+    .produto {
+        flex-direction: column; /* Coloca os itens um embaixo do outro */
+        align-items: center; /* Centraliza os itens */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .produto-imagem {
+        flex: 1 1 100%; /* A imagem ocupa toda a largura */
+        margin-bottom: 1rem; /* Espaço entre a imagem e a descrição */
+    }
+
+    .produto-descricao {
+        flex: 1 1 100%; /* A descrição ocupa toda a largura */
+        text-align: center; /* Centraliza a descrição */
+    }
+
+    .comprar-btn {
+        display: block; /* Torna o botão um bloco */
+        margin: 0 auto; /* Centraliza o botão */
+        width: auto; /* O botão vai manter o tamanho natural */
+    }
 }
 
 .contact-form {

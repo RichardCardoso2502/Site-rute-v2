@@ -1,24 +1,3 @@
-// Função para iniciar o contador
-function startCounter(element) {
-    const counterElement = element.querySelector('span'); // Seleciona o <span> que contém o número
-    const target = parseInt(counterElement.getAttribute('data-target'), 10);
-    if (isNaN(target)) {
-        console.error('O valor de data-target não é um número válido');
-        return; // Evita a execução se o valor não for numérico
-    }
-    let count = 0;
-    let varCount = Math.round(target / 100);
-    const interval = setInterval(() => {
-        if (count < target) {
-            count += varCount;
-            counterElement.textContent = `+${count}`;
-        } else {
-            clearInterval(interval);
-            counterElement.textContent = `+${target}`;
-        }
-    }, 50); // Ajuste o intervalo para controlar a velocidade do contador
-}
-
 // Função de callback unificada do IntersectionObserver
 const observerCallback = (entries, observer) => {
     entries.forEach(entry => {
@@ -107,35 +86,22 @@ function closeModal() {
     modal.style.display = 'none'; // Oculta o modal
 }
 
-// Seleciona todos os elementos com a classe 'read-more'
-const readMoreLinks = document.querySelectorAll('.read-more');
-
-readMoreLinks.forEach(link => {
-    link.addEventListener('click', function(event) {
-        event.preventDefault(); // Impede o comportamento padrão do link (não vai para o topo)
+document.querySelectorAll('.read-more').forEach(button => {
+    button.addEventListener('click', function () {
+        const testimonial = button.parentElement;
+        const textElement = testimonial.querySelector('.testimonial-text');
         
-        // Encontra o card do depoimento mais próximo
-        const testimonial = link.closest('.testimonial');
-        const testimonialText = testimonial.querySelector('p');
-        
-        // Verifica se o card já está expandido
         if (testimonial.classList.contains('expanded')) {
-            // Recolhe o texto e volta ao formato inicial
-            testimonialText.style.height = '120px'; // Reseta a altura do parágrafo
-            link.textContent = 'Leia mais'; // Muda o texto do link
-            testimonial.classList.remove('expanded');
+            // Mostrar o resumo
+            textElement.textContent = textElement.getAttribute('data-summary');
+            button.textContent = 'Leia Mais';
         } else {
-            // Expande o texto
-            testimonialText.style.height = 'auto'; // Deixa o texto expandir totalmente
-            link.textContent = 'Leia menos'; // Muda o texto do link
-            testimonial.classList.add('expanded');
+            // Mostrar o texto completo
+            textElement.textContent = textElement.getAttribute('data-full');
+            button.textContent = 'Leia Menos';
         }
+
+        testimonial.classList.toggle('expanded');
     });
 });
-
-
-
-
-
-
 
