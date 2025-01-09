@@ -1,89 +1,203 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="pt-BR">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.1.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.1.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.1.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A psicóloga Rute Cruz Esteves oferece terapia e psicoterapia para autoconhecimento e bem-estar emocional. Agende sua consulta e comece sua jornada de transformação.">
+    <meta name="keywords" content="psicóloga, terapia, psicoterapia, autoconhecimento, bem-estar emocional, psicóloga [cidade]">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph for social media -->
+    <meta property="og:title" content="Psicóloga Rute Cruz Esteves">
+    <meta property="og:description" content="A psicóloga Rute Cruz Esteves oferece terapia para ajudar você a melhorar seu bem-estar emocional e autoconhecimento.">
+    <meta property="og:image" content="URL da imagem que será exibida no compartilhamento">
+    <meta property="og:url" content="https://www.seusite.com">
+    <meta property="og:type" content="website">
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Psicóloga Rute Cruz Esteves">
+    <meta name="twitter:description" content="A psicóloga Rute Cruz Esteves oferece terapia e psicoterapia para melhorar seu bem-estar emocional e autoconhecimento.">
+    <meta name="twitter:image" content="URL da imagem de capa">
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <!-- Favicon -->
+    <link rel="icon" href="imagens/favicon.ico" type="image/x-icon">
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Psychologist",
+      "name": "Rute Cruz Esteves",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Exemplo, 123",
+        "addressLocality": "Cidade",
+        "addressRegion": "Estado",
+        "postalCode": "12345-678",
+        "addressCountry": "BR"
+      },
+      "telephone": "+55 11 1234-5678",
+      "url": "https://www.seusite.com",
+      "sameAs": "https://www.linkedin.com/in/rutecruzesteves"
+    }
     </script>
-  </body>
+
+    <title>Psicóloga Rute Cruz Esteves</title>
+</head>
+
+
+<body>
+    <aside class="floating-menu">
+        <a href="https://wa.me/5511965182010" target="_blank" class="whatsapp">
+            <img src="imagens/whatsapp-icon.svg" alt="WhatsApp">
+        </a>
+    </aside>
+
+    <header>
+        <h1 class="main-heading">De bem com as emoções</h1>
+        <p class="sub-heading">Uma jornada de autodescoberta e crescimento.</p>
+        <button class="contact-btn" onclick="window.location.href='https://wa.me/5511965182010'">
+            Clique aqui para falar comigo
+        </button>
+    </header>
+   
+
+    <main>
+        <section id="about" class="section fade-in">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="about-content">
+                <img src="imagens/rute-cruz.jpg" alt="Foto de Rute Cruz Esteves" class="about-image">
+                <p>Sou apaixonada por estudar e ensinar sobre emoções. Acredito que entender e gerenciar nossas emoções é a chave para um relacionamento mais saudável com nós mesmos e com o mundo ao nosso redor. Minha abordagem é prática e personalizada, ajudando você a desenvolver o autoconhecimento e novos hábitos.</p>
+            </div>
+        </section>
+
+        <section class="services-section">
+            <div class="service-card" onclick="openModal('service1')">
+                <img src="imagens/servicos/imagem1.jpg" alt="Psicoterapia Individual">
+                <h3>Psicoterapia Individual</h3>
+            </div>
+            <div class="service-card" onclick="openModal('service2')">
+                <img src="imagens/servicos/imagem2.jpg" alt="Suporte para Crises Emocionais">
+                <h3>Suporte para Crises Emocionais</h3>
+            </div>
+            <div class="service-card" onclick="openModal('service3')">
+                <img src="imagens/servicos/imagem3.jpg" alt="Desenvolvimento de Inteligência Emocional">
+                <h3>Desenvolvimento de Inteligência Emocional</h3>
+            </div>
+            <div class="service-card" onclick="openModal('service4')">
+                <img src="imagens/servicos/imagem4.jpg" alt="Palestras e Eventos">
+                <h3>Palestras e Eventos</h3>
+            </div>
+        
+            <!-- Modal Popup -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <h3 id="modal-title"></h3>
+                    <p id="modal-description"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testimonials" class="section fade-in">
+            <h2 class="section-title">Depoimentos</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text" data-summary = "Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute." data-full="Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.">
+                        Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.
+                    </p>
+                    <div class="testimonial-author">- W.</div>
+                    <button class="read-more">Ler mais</button>
+                </div>
+                
+                <div class="testimonial">
+                    <p class="testimonial-text" data-summary="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏" data-full="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏">
+                        Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏
+                    </p>
+                    <div class="testimonial-author">- D.</div>
+                    <button class="read-more">Ler mais</button>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text" data-summary="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏" data-full="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏">
+                        Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏
+                    </p>
+                    <div class="testimonial-author">- C.</div>   
+                    <button class="read-more">Ler mais</button>                                     
+                </div>
+            </div>
+        </section>
+        
+        <section id="produtos" class="produtos-section">
+            <div class="container">
+                <h2 class="section-title">Produtos</h2>
+                <div class="produto">
+                    <div class="produto-imagem">
+                        <img src="imagens/produto.JPG" alt="Trilhando o Autoconhecimento">
+                    </div>
+                    <div class="produto-descricao">
+                        <p>
+                            E se você pudesse encontrar uma ferramenta de forma acessível, leve e descontraída, 
+                            que te ajude a aprender mais sobre si, a ampliar suas habilidades emocionais e com exercícios práticos? 
+                            <strong>Trilhando o Autoconhecimento</strong> é um guia com ferramentas que irá te auxiliar a se descobrir. 
+                            Ele é um livro com conteúdos e com atividades que possibilitará ampliar seu repertório emocional e 
+                            desenvolver o autoconhecimento.
+                        </p>
+                        <a href="https://go.hotmart.com/C74879999V" target="_blank" class="comprar-btn">Compre Agora</a>
+                    </div>
+                </div>
+            </div>
+        </section>    
+
+        <section id="contact" class="section fade-in">
+            <h2 class="section-title">Contato</h2>
+            <p>Entre em contato pelas minhas redes sociais:</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/19qkYD6zQv/" target="_blank" class="social-btn">Facebook</a>
+                <a href="https://www.instagram.com/psi.rutecruz?igsh=MWI5ZG14M245dm5ubQ==" target="_blank" class="social-btn">Instagram</a>
+                <a href="https://youtube.com/@psi.rutecruz?si=Ye1nMnk45FtyEpqV" target="_blank" class="social-btn">YouTube</a>
+            </div>
+            <div class="form-container">
+                <p>Ou se preferir, preencha o formulário abaixo para entrar em contato por e-mail:</p>
+                <form id="contact-form" class="contact-form">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+                
+                    <label for="message">Mensagem:</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Sua mensagem" required></textarea>
+                
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Rute Cruz Esteves. Todos os direitos reservados.</p>
+    </footer>
+
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "2qiBtPUCZEbWJ2fGW",
+      });
+   })();
+</script>
+    <script src="scripts.js"></script>
+
+</body>
+
 </html>
