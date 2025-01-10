@@ -46,15 +46,38 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
+    // Define a URL do CORS Anywhere (proxy)
+    const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const emailJsUrl = 'https://api.emailjs.com/api/v1.0/email/send';
+
     // Envia o e-mail usando o template configurado via EmailJS
-    emailjs.send('service_dt571ve', 'template_i3x1m68', data)
-        .then(function(response) {
+    fetch(corsProxyUrl + emailJsUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            service_id: 'service_dt571ve',
+            template_id: 'template_i3x1m68',
+            user_id: '2qiBtPUCZEbWJ2fGW', // Chave pública do EmailJS
+            template_params: data
+        })
+    })
+    .then(response => response.text()) // Tratamos como texto
+    .then(function(responseText) {
+        // Verifique se a resposta é "OK"
+        if (responseText === 'OK') {
             alert('Mensagem enviada com sucesso!');
-            event.target.reset(); // Limpa o formulário após o envio
-        }, function(error) {
-            console.error('Erro ao enviar a mensagem: ', error);
-            alert('Erro ao enviar a mensagem: ' + error.text);
-        });
+        } else {
+            console.error('Resposta inesperada do servidor: ', responseText);
+            alert('Erro ao enviar a mensagem: Resposta inesperada do servidor.');
+        }
+        event.target.reset(); // Limpa o formulário após o envio
+    })
+    .catch(function(error) {
+        console.error('Erro ao enviar a mensagem: ', error);
+        alert('Erro ao enviar a mensagem: ' + error.message);
+    });
 });
 
 // Função para abrir o modal e carregar o conteúdo do serviço
