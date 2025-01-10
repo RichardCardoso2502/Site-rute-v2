@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM completamente carregado e analisado.');
 });
 
+// Inicia o EmailJS com a chave pública
 emailjs.init('2qiBtPUCZEbWJ2fGW');
 
 document.getElementById('contact-form').addEventListener('submit', function(event) {
@@ -45,8 +46,8 @@ document.getElementById('contact-form').addEventListener('submit', function(even
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    // Envia o e-mail usando o template configurado
-    emailjs.send('service_k2p24ps', 'template_i3x1m68', data)
+    // Envia o e-mail usando o template configurado via EmailJS
+    emailjs.send('service_dt571ve', 'template_i3x1m68', data)
         .then(function(response) {
             alert('Mensagem enviada com sucesso!');
             event.target.reset(); // Limpa o formulário após o envio
