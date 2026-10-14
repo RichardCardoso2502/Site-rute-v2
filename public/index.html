@@ -3,6 +3,34 @@
 
 <head>
     <meta charset="UTF-8">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17473017035"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-17473017035');
+
+        function gtag_report_conversion(url) {
+            let redirected = false;
+            const callback = function () {
+                if (url && !redirected) {
+                    redirected = true;
+                    window.location.href = url;
+                }
+            };
+
+            if (url) {
+                window.setTimeout(callback, 1000);
+            }
+
+            gtag('event', 'conversion', {
+                'send_to': 'AW-17473017035/mxGcCJL7lPAbEMup5ItB',
+                'event_callback': callback,
+                'event_timeout': 1000
+            });
+            return false;
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A psicóloga Rute Cruz Esteves oferece terapia e psicoterapia para autoconhecimento e bem-estar emocional. Agende sua consulta e comece sua jornada de transformação.">
     <meta name="keywords" content="psicóloga, terapia, psicoterapia, autoconhecimento, bem-estar emocional, psicóloga [São Paulo], terapia cognitivo comportamental, terapia focada nas emoções">
@@ -56,7 +84,7 @@
 
 <body>
     <aside class="floating-menu">
-        <a href="https://wa.me/5511965182010" target="_blank" class="whatsapp">
+        <a href="https://wa.me/5511965182010" target="_blank" class="whatsapp" onclick="gtag_report_conversion()">
             <img src="imagens/whatsapp-icon.svg" alt="WhatsApp">
         </a>
     </aside>
@@ -64,7 +92,7 @@
     <header>
         <h1 class="main-heading">De bem com as emoções</h1>
         <p class="sub-heading">Uma jornada de autodescoberta e crescimento.</p>
-        <button class="contact-btn" onclick="window.location.href='https://wa.me/5511965182010'">
+        <button class="contact-btn" onclick="gtag_report_conversion('https://wa.me/5511965182010')">
             Clique aqui para falar comigo
         </button>
     </header>
