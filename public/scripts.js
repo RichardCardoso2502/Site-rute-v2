@@ -129,3 +129,75 @@ document.querySelectorAll('.read-more').forEach(button => {
     });
 });
 
+// Controle do Menu de Navegação Mobile
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.getElementById('nav-menu');
+
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+        const isActive = navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+        navToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+
+    // Fecha o menu ao clicar em qualquer link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+// Fechar modal ao clicar fora da caixa de conteúdo
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
+// Carrossel de Depoimentos
+const carouselTrackContainer = document.getElementById('carousel-track-container');
+const carouselPrevBtn = document.getElementById('carousel-prev');
+const carouselNextBtn = document.getElementById('carousel-next');
+const carouselDots = document.querySelectorAll('#carousel-dots .dot');
+
+if (carouselTrackContainer && carouselPrevBtn && carouselNextBtn) {
+    const getScrollStep = () => {
+        const card = carouselTrackContainer.querySelector('.testimonial-card');
+        return card ? card.offsetWidth + 24 : 340;
+    };
+
+    carouselPrevBtn.addEventListener('click', () => {
+        carouselTrackContainer.scrollBy({ left: -getScrollStep(), behavior: 'smooth' });
+    });
+
+    carouselNextBtn.addEventListener('click', () => {
+        carouselTrackContainer.scrollBy({ left: getScrollStep(), behavior: 'smooth' });
+    });
+
+    // Atualiza indicadores visuais (bolinhas/dots) ao rolar
+    carouselTrackContainer.addEventListener('scroll', () => {
+        const step = getScrollStep();
+        const activeIndex = Math.min(
+            carouselDots.length - 1,
+            Math.max(0, Math.round(carouselTrackContainer.scrollLeft / step))
+        );
+        carouselDots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === activeIndex);
+        });
+    });
+
+    carouselDots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+            carouselTrackContainer.scrollTo({
+                left: idx * getScrollStep(),
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
+

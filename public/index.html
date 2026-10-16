@@ -89,9 +89,30 @@
         </a>
     </aside>
 
+    <!-- Barra de Navegação Superior (Index) -->
+    <nav class="top-nav" id="top-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-brand" aria-label="Rute Cruz Esteves - Início">
+                <img src="imagens/iconRE.png" alt="Logotipo Rute Cruz Esteves" class="nav-logo-img">
+            </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu de navegação" aria-expanded="false">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#sobre-mim" class="nav-link">Sobre Mim</a></li>
+                <li><a href="#servicos" class="nav-link">Serviços</a></li>
+                <li><a href="#depoimentos" class="nav-link">Depoimentos</a></li>
+                <li><a href="#livros" class="nav-link">Livros</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <header>
-        <h1 class="main-heading">De bem com as emoções</h1>
-        <p class="sub-heading">Uma jornada de autodescoberta e crescimento.</p>
+        <h1 class="main-heading">Psicóloga Rute Cruz</h1>
+        <p class="sub-heading">De bem com as emoções. Uma jornada de autodescoberta e crescimento.</p>
         <button class="contact-btn" onclick="gtag_report_conversion('https://wa.me/5511965182010')">
             Clique aqui para falar comigo
         </button>
@@ -99,7 +120,7 @@
    
 
     <main>
-        <section id="about" class="section fade-in">
+        <section id="sobre-mim" class="section fade-in">
             <h2 class="section-title">Sobre Mim</h2>
             <div class="about-content">
                 <img src="imagens/rute-cruz.JPG" alt="Foto de Rute Cruz Esteves" class="about-image">
@@ -107,22 +128,29 @@
             </div>
         </section>
 
-        <section class="services-section">
-            <div class="service-card" onclick="openModal('service1')">
-                <img src="imagens/servicos/imagem1.jpg" alt="Psicoterapia Individual">
-                <h3>Psicoterapia Individual</h3>
-            </div>
-            <div class="service-card" onclick="openModal('service2')">
-                <img src="imagens/servicos/imagem2.jpg" alt="Suporte para Crises Emocionais">
-                <h3>Suporte para Crises Emocionais</h3>
-            </div>
-            <div class="service-card" onclick="openModal('service3')">
-                <img src="imagens/servicos/imagem3.jpg" alt="Desenvolvimento de Inteligência Emocional">
-                <h3>Desenvolvimento de Inteligência Emocional</h3>
-            </div>
-            <div class="service-card" onclick="openModal('service4')">
-                <img src="imagens/servicos/imagem4.jpg" alt="Palestras e Eventos">
-                <h3>Palestras e Eventos</h3>
+        <section id="servicos" class="section services-section fade-in">
+            <h2 class="section-title">Serviços</h2>
+            <div class="services-grid">
+                <div class="service-card" onclick="openModal('service1')">
+                    <img src="imagens/servicos/imagem1.jpg" alt="Psicoterapia Individual">
+                    <h3>Psicoterapia Individual</h3>
+                </div>
+                <div class="service-card" onclick="openModal('service2')">
+                    <img src="imagens/servicos/imagem2.jpg" alt="Suporte para Crises Emocionais">
+                    <h3>Suporte para Crises Emocionais</h3>
+                </div>
+                <div class="service-card" onclick="openModal('service3')">
+                    <img src="imagens/servicos/imagem3.jpg" alt="Desenvolvimento de Inteligência Emocional">
+                    <h3>Desenvolvimento de Inteligência Emocional</h3>
+                </div>
+                <div class="service-card" onclick="openModal('service4')">
+                    <img src="imagens/servicos/imagem4.jpg" alt="Palestras e Eventos">
+                    <h3>Palestras e Eventos</h3>
+                </div>
+                <a href="https://rutecruz.substack.com/?utm_source=share&utm_medium=android&r=3ott7p" target="_blank" rel="noopener noreferrer" class="service-card">
+                    <img src="imagens/newsletter.jpg" alt="Newsletter - Emoções sem drama" class="newsletter-img">
+                    <h3>Newsletter</h3>
+                </a>
             </div>
         
             <!-- Modal Popup -->
@@ -135,37 +163,103 @@
             </div>
         </section>
         
-        <section id="testimonials" class="section fade-in">
+        <section id="depoimentos" class="section fade-in">
             <h2 class="section-title">Depoimentos</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial">
-                    <p class="testimonial-text" data-summary = "Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute." data-full="Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.">
-                        Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.
-                    </p>
-                    <div class="testimonial-author">- W.</div>
-                    <button class="read-more">Ler mais</button>
+            
+            <!-- Widget de Avaliações do Google (Elfsight) -->
+            <div class="google-reviews-widget-container">
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-2bd5dc6f-619b-497c-bdeb-3035ac5cd254" data-elfsight-app-lazy></div>
+            </div>
+
+            <!-- Carrossel de Depoimentos de Pacientes -->
+            <div class="local-testimonials-carousel" id="testimonials-carousel">
+                <div class="carousel-header">
+                    <h3 class="carousel-title">Relatos e Experiências de Pacientes</h3>
                 </div>
-                
-                <div class="testimonial">
-                    <p class="testimonial-text" data-summary="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏" data-full="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏">
-                        Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏
-                    </p>
-                    <div class="testimonial-author">- D.</div>
-                    <button class="read-more">Ler mais</button>
+
+                <div class="carousel-wrapper">
+                    <button class="carousel-btn prev" id="carousel-prev" aria-label="Depoimento anterior">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="carousel-track-container" id="carousel-track-container">
+                        <div class="carousel-track" id="carousel-track">
+                            <!-- Card 1 -->
+                            <div class="testimonial testimonial-card">
+                                <div class="review-header">
+                                    <div class="reviewer-avatar avatar-w">W</div>
+                                    <div class="reviewer-info">
+                                        <h4 class="reviewer-name">Paciente W.</h4>
+                                        <div class="review-stars">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p class="testimonial-text" data-summary="Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute." data-full="Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.">
+                                    Se descobrir é, descortinar algo tão formidável que é a revelação de algo que muitas vezes não imaginamos. Porém por ser um caminho desconhecido você não pode ir só, no princípio um anjo vem e te pega pela mão, depois o caminho é iluminado com a lanterna do autoconhecimento, e assim você se descobre, ver o quanto você é capaz! O quanto você pode e onde pode chegar! E eu estou chegando!! Que alegria em saber que tenho vez e tenho voz! E você foi o anjo para descortinar e me mostrar o caminho que eu seria melhor sucedida! Obrigada por ter o poder de me escutar com o coração com tanto respeito que me sinto acolhida, obrigada por muitas vezes me ensinar a pensar grande, porque eu sou grande, porque eu posso e eu vou chegar onde quero! Essa foto? Sou eu dividindo com você algo tão importante para mim e hoje com uma nova visão. Tudo depende de mim e do meu posicionamento. Obrigada Rute.
+                                </p>
+                                <button class="read-more">Ler mais</button>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="testimonial testimonial-card">
+                                <div class="review-header">
+                                    <div class="reviewer-avatar avatar-d">D</div>
+                                    <div class="reviewer-info">
+                                        <h4 class="reviewer-name">Paciente D.</h4>
+                                        <div class="review-stars">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p class="testimonial-text" data-summary="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏" data-full="Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏">
+                                    Rute muito obrigada… Sem palavras pela sessão… Só agradecimento, acho que sim que cada sessão é um aprendizado, e como eu disse super indico pois acho que cada ser humano deveria querer se conhecer… Querer conhecer seu corpo, seus sentimentos, suas emoções, seus potenciais, e nada melhor do que um bom psicologo, e não é para puxar o saco não viu, e sim porque sou admiradora dessa profissão, e dos profissionais que exercem com excelência, e você é uma delas, porque se não fosse eu já teria desistido…Hoje só vejo a cada dia a minha mudança, e você faz parte disso… Minha gratidão ❣️ Muito obrigada… Deus abençoe 🙏
+                                </p>
+                                <button class="read-more">Ler mais</button>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="testimonial testimonial-card">
+                                <div class="review-header">
+                                    <div class="reviewer-avatar avatar-c">C</div>
+                                    <div class="reviewer-info">
+                                        <h4 class="reviewer-name">Paciente C.</h4>
+                                        <div class="review-stars">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p class="testimonial-text" data-summary="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏" data-full="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏">
+                                    Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏
+                                </p>
+                                <button class="read-more">Ler mais</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-btn next" id="carousel-next" aria-label="Próximo depoimento">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
-                <div class="testimonial">
-                    <p class="testimonial-text" data-summary="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏" data-full="Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏">
-                        Oi Rute, segue um breve feedback do nosso encontro de hoje: Aprendi uma nova ferramenta que acredito que será bastante util nas minhas leituras, quando for ouvir um podcast, assistir um vídeo, live, enfim isso me ajudará a gastar o meu tempo com mais qualidade. Obrigada  🙏
-                    </p>
-                    <div class="testimonial-author">- C.</div>   
-                    <button class="read-more">Ler mais</button>                                     
+
+                <div class="carousel-dots" id="carousel-dots">
+                    <button class="dot active" data-index="0" aria-label="Ir para depoimento 1"></button>
+                    <button class="dot" data-index="1" aria-label="Ir para depoimento 2"></button>
+                    <button class="dot" data-index="2" aria-label="Ir para depoimento 3"></button>
                 </div>
+            </div>
+
+            <!-- Botão de incentivo para nova avaliação no Google -->
+            <div class="google-cta-container">
+                <p>Já foi atendido(a) pela Psicóloga Rute Cruz?</p>
+                <a href="https://www.google.com/maps/place/Psic%C3%B3loga+Rute+Cruz+%7C+Consultora+de+sa%C3%BAde+Mental/data=!4m2!3m1!1s0x94ce53a93ea0d639:0xe6687c2c6d22e16f" target="_blank" rel="noopener noreferrer" class="google-review-btn">
+                    ⭐ Deixe sua avaliação no Google
+                </a>
             </div>
         </section>
         
-        <section id="produtos" class="produtos-section">
+        <section id="livros" class="produtos-section section fade-in">
             <div class="container">
-                <h2 class="section-title">Produtos</h2>
+                <h2 class="section-title">Livros</h2>
                 <div class="produto">
                     <div class="produto-imagem">
                         <img src="imagens/produto.JPG" alt="Trilhando o Autoconhecimento">
@@ -184,7 +278,7 @@
             </div>
         </section>    
 
-        <section id="contact" class="section fade-in">
+        <section id="contato" class="section fade-in">
             <h2 class="section-title">Contato</h2>
             <p>Entre em contato pelas minhas redes sociais:</p>
             <div class="social-links">
@@ -211,7 +305,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Rute Cruz Esteves. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Rute Cruz Esteves. Todos os direitos reservados. Versão 3.0</p>
         <p> CRP: 06/128731</p>
     </footer>
 

@@ -1,0 +1,133 @@
+const { getStore } = require("@netlify/blobs");
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+const DAILY_LIMIT_ANON = parseInt(process.env.DAILY_LIMIT_ANON || "1", 10);
+const DAILY_LIMIT_LOGGED = parseInt(process.env.DAILY_LIMIT_LOGGED || "4", 10);
+
+const SYSTEM_PROMPT = `Você é um guia de shadow work criado para uma psicóloga clínica especializada em inteligência emocional e neurociência afetiva. Seu tom é direto, poético e levemente provocador — no estilo de um mentor que não suaviza a verdade, mas também não é cruel. Você tem base sólida em como emoções funcionam (circuitos afetivos, função adaptativa de cada emoção, padrões de apego, respostas de ameaça/proteção), mas nunca soa como um manual técnico — a linguagem é acessível e viva.
+
+Sua função é pegar o tema (uma emoção ou padrão) e o pensamento da pessoa e devolver duas coisas:
+1. Uma reflexão curta (3 a 5 frases) que nomeia o padrão inconsciente por trás do pensamento. Quando fizer sentido, aponte a função protetora da emoção (o que ela está tentando fazer por essa pessoa), sem jargão técnico e sem julgamento — mas sem rodeios.
+2. Uma pergunta final, direta, que a pessoa não consegue responder rápido — precisa parar para sentir.
+
+Responda SOMENTE em JSON válido, sem markdown, sem crases, no formato exato:
+{"reflection": "...", "question": "..."}
+
+Escreva em português do Brasil.`;
+
+exports.handler = async (event, context) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers: corsHeaders, body: "" };
+  }
+
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: "method_not_allowed" }),
+    };
+  }
+
+  // Netlify Identity preenche isto automaticamente quando o front-end manda
+  // o token de login no header Authorization: Bearer <token>
+  const user = context.clientContext && context.clientContext.user;
+
+  const ip =
+    event.headers["x-nf-client-connection-ip"] ||
+    event.headers["client-ip"] ||
+    "unknown";
+  const today = new Date().toISOString().slice(0, 10);
+  const rateStore = getStore("rate-limits");
+
+  const rateKey = user ? `user:${user.email}:${today}` : `ip:${ip}:${today}`;
+  const limit = user ? DAILY_LIMIT_LOGGED : DAILY_LIMIT_ANON;
+
+  try {
+    const current = (await rateStore.get(rateKey, { type: "json" })) || {
+      count: 0,
+    };
+    if (current.count >= limit) {
+      return {
+        statusCode: 429,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: user ? "limite_diario_atingido" : "login_necessario",
+          message: user
+            ? "Você atingiu o limite de reflexões de hoje. Volte amanhã!"
+            : "Sua reflexão gratuita de hoje já foi usada. Entre com seu e-mail para desbloquear mais.",
+        }),
+      };
+    }
+    await rateStore.setJSON(rateKey, { count: current.count + 1 });
+  } catch (e) {
+    // se o controle de limite falhar, seguimos em frente sem travar o usuário
+  }
+
+  try {
+    const { theme, thought } = JSON.parse(event.body || "{}");
+
+    if (!theme) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: "theme_required" }),
+      };
+    }
+
+    const userPrompt = `Tema: ${theme}\nPensamento da pessoa agora: ${
+      (thought || "").trim() ||
+      "(não informado — trabalhe apenas a partir do tema)"
+    }`;
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: "user", content: userPrompt }],
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      return {
+        statusCode: 502,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: "anthropic_error", detail: errText }),
+      };
+    }
+
+    const data = await response.json();
+    const text = (data.content || [])
+      .filter((b) => b.type === "text")
+      .map((b) => b.text)
+      .join("\n")
+      .trim();
+
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
+
+    return {
+      statusCode: 200,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      body: JSON.stringify(parsed),
+    };
+  } catch (e) {
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: "generation_failed" }),
+    };
+  }
+};
