@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentir é Habilidade - Psicóloga Rute Cruz Esteves</title>
+    <meta name="description" content="Gerador de reflexões emocionais por Psicóloga Rute Cruz — escolha um tema e receba uma reflexão e uma pergunta para ir mais fundo.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" href="../imagens/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos do Site Principal -->
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sentir-app-container {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #faf6f0;
+            position: relative;
+        }
+
+        .sentir-iframe {
+            width: 100%;
+            height: 100%;
+            min-height: calc(100vh - 105px);
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Barra de Navegação Superior -->
+    <nav class="top-nav" id="top-nav">
+        <div class="nav-container">
+            <a href="../" class="nav-brand" aria-label="Rute Cruz Esteves - Início">
+                <img src="../imagens/iconRE.jpeg" alt="Logotipo Rute Cruz Esteves" class="nav-logo-img">
+            </a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu de navegação" aria-expanded="false">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../#sobre-mim" class="nav-link">Sobre Mim</a></li>
+                <li><a href="../#servicos" class="nav-link">Serviços</a></li>
+                <li><a href="../#depoimentos" class="nav-link">Depoimentos</a></li>
+                <li><a href="../#livros" class="nav-link">Livros</a></li>
+                <li><a href="../#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Container da Aplicação Sentir é Habilidade -->
+    <main class="sentir-app-container">
+        <iframe 
+            src="https://strong-meerkat-22c7b4.netlify.app/" 
+            title="Sentir é Habilidade - Gerador de Reflexões Emocionais" 
+            class="sentir-iframe"
+            allow="clipboard-write">
+        </iframe>
+    </main>
+
+    <script src="../scripts.js"></script>
+</body>
+
+</html>
