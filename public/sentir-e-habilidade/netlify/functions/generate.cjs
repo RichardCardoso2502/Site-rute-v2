@@ -69,7 +69,24 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { theme, thought } = JSON.parse(event.body || "{}");
+    // Parse do body de forma robusta (aceita string ou objeto já parseado)
+    let bodyData = {};
+    try {
+      const raw = event.body;
+      if (typeof raw === "string") {
+        bodyData = JSON.parse(raw || "{}");
+      } else if (raw && typeof raw === "object") {
+        bodyData = raw;
+      }
+    } catch (parseErr) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: "invalid_body", raw: String(event.body).slice(0, 200) }),
+      };
+    }
+    const { theme, thought } = bodyData;
+
 
     if (!theme) {
       return {
@@ -129,8 +146,17 @@ exports.handler = async (event, context) => {
     const data = await response.json();
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
+    // Tenta extrair JSON de forma robusta (Gemini às vezes adiciona caracteres extras)
     const clean = text.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(clean);
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch (_) {
+      // Tenta encontrar o primeiro objeto JSON válido no texto
+      const match = clean.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error("no_json_found");
+      parsed = JSON.parse(match[0]);
+    }
 
     return {
       statusCode: 200,
@@ -141,7 +167,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "generation_failed" }),
+      body: JSON.stringify({ error: "generation_failed", detail: e.message, stack: e.stack }),
     };
   }
 };
