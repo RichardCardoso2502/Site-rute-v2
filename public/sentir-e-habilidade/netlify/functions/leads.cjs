@@ -11,11 +11,10 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: corsHeaders, body: "" };
   }
 
-  const store = getStore("leads");
-
   // Salvar um novo lead (qualquer visitante pode chamar isso)
   if (event.httpMethod === "POST") {
     try {
+      const store = getStore("leads");
       const body = JSON.parse(event.body || "{}");
       if (!body.email || !body.email.includes("@")) {
         return {
@@ -37,7 +36,7 @@ exports.handler = async (event) => {
       return {
         statusCode: 500,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "falha_ao_salvar" }),
+        body: JSON.stringify({ error: "falha_ao_salvar", detail: e.message }),
       };
     }
   }
@@ -53,6 +52,7 @@ exports.handler = async (event) => {
       };
     }
     try {
+      const store = getStore("leads");
       const { blobs } = await store.list();
       const leads = [];
       for (const b of blobs) {

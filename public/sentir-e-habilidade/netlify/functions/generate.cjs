@@ -42,12 +42,12 @@ exports.handler = async (event, context) => {
     event.headers["client-ip"] ||
     "unknown";
   const today = new Date().toISOString().slice(0, 10);
-  const rateStore = getStore("rate-limits");
 
   const rateKey = user ? `user:${user.email}:${today}` : `ip:${ip}:${today}`;
   const limit = user ? DAILY_LIMIT_LOGGED : DAILY_LIMIT_ANON;
 
   try {
+    const rateStore = getStore("rate-limits");
     const current = (await rateStore.get(rateKey, { type: "json" })) || {
       count: 0,
     };
@@ -65,7 +65,7 @@ exports.handler = async (event, context) => {
     }
     await rateStore.setJSON(rateKey, { count: current.count + 1 });
   } catch (e) {
-    // se o controle de limite falhar, seguimos em frente sem travar o usuário
+    // se o controle de limite falhar (ex: Netlify Blobs não configurado), seguimos em frente sem travar o usuário
   }
 
   try {
@@ -76,6 +76,17 @@ exports.handler = async (event, context) => {
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({ error: "theme_required" }),
+      };
+    }
+
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: "missing_api_key",
+          message: "A variável de ambiente ANTHROPIC_API_KEY não está configurada no Netlify.",
+        }),
       };
     }
 
