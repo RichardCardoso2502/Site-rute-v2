@@ -79,13 +79,13 @@ exports.handler = async (event, context) => {
       };
     }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
       return {
         statusCode: 500,
         headers: corsHeaders,
         body: JSON.stringify({
           error: "missing_api_key",
-          message: "A variável de ambiente ANTHROPIC_API_KEY não está configurada no Netlify.",
+          message: "A variável de ambiente GEMINI_API_KEY não está configurada no Netlify.",
         }),
       };
     }
@@ -95,18 +95,25 @@ exports.handler = async (event, context) => {
       "(não informado — trabalhe apenas a partir do tema)"
     }`;
 
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
+
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+
+    const response = await fetch(geminiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: "user", content: userPrompt }],
+        contents: [
+          {
+            parts: [{ text: fullPrompt }],
+          },
+        ],
+        generationConfig: {
+          temperature: 0.9,
+          maxOutputTokens: 1000,
+        },
       }),
     });
 
@@ -115,16 +122,12 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 502,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "anthropic_error", detail: errText }),
+        body: JSON.stringify({ error: "gemini_error", detail: errText }),
       };
     }
 
     const data = await response.json();
-    const text = (data.content || [])
-      .filter((b) => b.type === "text")
-      .map((b) => b.text)
-      .join("\n")
-      .trim();
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     const clean = text.replace(/```json|```/g, "").trim();
     const parsed = JSON.parse(clean);
