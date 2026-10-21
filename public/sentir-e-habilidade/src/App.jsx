@@ -148,19 +148,31 @@ export default function App() {
         body: JSON.stringify({ theme: themeLabel, thought }),
       });
 
-      if (response.status === 429) {
-        const data = await response.json();
-        setError(
-          data.message ||
-            "Você atingiu o limite de reflexões por hoje. Volte amanhã!"
-        );
-        if (data.error === "login_necessario") setLoginRequired(true);
+      const parsed = await response.json().catch(() => null);
+
+      if (!parsed) {
+        setError("O endpoint da IA não retornou JSON. Verifique se a aplicação e a função generate foram publicadas no Netlify.");
         return;
       }
 
-      if (!response.ok) throw new Error("request_failed");
+      if (response.status === 429) {
+        setError(
+          parsed.message ||
+            "Você atingiu o limite de reflexões por hoje. Volte amanhã!"
+        );
+        if (parsed.error === "login_necessario") setLoginRequired(true);
+        return;
+      }
 
-      const parsed = await response.json();
+      if (!response.ok) {
+        setError(parsed.message || "Não consegui gerar agora. Tenta de novo em alguns segundos.");
+        return;
+      }
+
+      if (typeof parsed.reflection !== "string" || typeof parsed.question !== "string") {
+        throw new Error("invalid_response");
+      }
+
       setResult(parsed);
       saveToHistory({
         theme: themeLabel,

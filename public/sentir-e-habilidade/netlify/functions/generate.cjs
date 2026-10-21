@@ -1,8 +1,9 @@
 const { getStore } = require("@netlify/blobs");
 
 const corsHeaders = {
+  "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -45,10 +46,12 @@ exports.handler = async (event, context) => {
 
   const rateKey = user ? `user:${user.email}:${today}` : `ip:${ip}:${today}`;
   const limit = user ? DAILY_LIMIT_LOGGED : DAILY_LIMIT_ANON;
+  let rateStore;
+  let current;
 
   try {
-    const rateStore = getStore("rate-limits");
-    const current = (await rateStore.get(rateKey, { type: "json" })) || {
+    rateStore = getStore("rate-limits");
+    current = (await rateStore.get(rateKey, { type: "json" })) || {
       count: 0,
     };
     if (current.count >= limit) {
@@ -63,7 +66,6 @@ exports.handler = async (event, context) => {
         }),
       };
     }
-    await rateStore.setJSON(rateKey, { count: current.count + 1 });
   } catch (e) {
     // se o controle de limite falhar (ex: Netlify Blobs não configurado), seguimos em frente sem travar o usuário
   }
@@ -85,14 +87,15 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ error: "invalid_body", raw: String(event.body).slice(0, 200) }),
       };
     }
-    const { theme, thought } = bodyData;
+    const { theme, thought } = bodyData || {};
 
 
-    if (!theme) {
+    if (typeof theme !== "string" || !theme.trim() ||
+      (thought != null && typeof thought !== "string")) {
       return {
         statusCode: 400,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "theme_required" }),
+        body: JSON.stringify({ error: "invalid_input", message: "Escolha um tema válido e envie o pensamento como texto." }),
       };
     }
 
@@ -114,12 +117,14 @@ exports.handler = async (event, context) => {
 
     const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`;
+    const model = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
 
     const response = await fetch(geminiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-goog-api-key": process.env.GEMINI_API_KEY,
       },
       body: JSON.stringify({
         contents: [
@@ -129,22 +134,44 @@ exports.handler = async (event, context) => {
         ],
         generationConfig: {
           temperature: 0.9,
-          maxOutputTokens: 1000,
+          maxOutputTokens: 4096,
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              reflection: { type: "STRING" },
+              question: { type: "STRING" },
+            },
+            required: ["reflection", "question"],
+          },
         },
       }),
     });
 
     if (!response.ok) {
-      const errText = await response.text();
+      await response.text();
+      const messages = {
+        400: "A configuração da chamada ao Gemini é inválida. Verifique a chave e o modelo no Netlify.",
+        401: "A chave do Gemini não foi aceita. Verifique GEMINI_API_KEY no Netlify.",
+        403: "O Gemini recusou o acesso. Verifique as permissões e restrições da chave no Google AI Studio.",
+        404: "O modelo do Gemini não está disponível. Atualize GEMINI_MODEL no Netlify.",
+        429: "A cota do Gemini foi atingida. Verifique os limites e o faturamento no Google AI Studio.",
+      };
       return {
         statusCode: 502,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "gemini_error", detail: errText }),
+        body: JSON.stringify({
+          error: "gemini_error",
+          message: messages[response.status] || "O Gemini está indisponível agora. Tente novamente em alguns instantes.",
+        }),
       };
     }
 
     const data = await response.json();
-    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const text = (data?.candidates?.[0]?.content?.parts || [])
+      .filter((part) => !part.thought && typeof part.text === "string")
+      .map((part) => part.text)
+      .join("");
 
     // Tenta extrair JSON de forma robusta (Gemini às vezes adiciona caracteres extras)
     const clean = text.replace(/```json|```/g, "").trim();
@@ -158,6 +185,19 @@ exports.handler = async (event, context) => {
       parsed = JSON.parse(match[0]);
     }
 
+    if (
+      typeof parsed?.reflection !== "string" || !parsed.reflection.trim() ||
+      typeof parsed?.question !== "string" || !parsed.question.trim()
+    ) {
+      throw new Error("invalid_reflection");
+    }
+
+    if (rateStore && current) {
+      try {
+        await rateStore.setJSON(rateKey, { count: current.count + 1 });
+      } catch (e) {}
+    }
+
     return {
       statusCode: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -167,7 +207,10 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "generation_failed", detail: e.message, stack: e.stack }),
+      body: JSON.stringify({
+        error: "generation_failed",
+        message: "A IA não retornou uma reflexão válida. Tente novamente em alguns instantes.",
+      }),
     };
   }
 };
