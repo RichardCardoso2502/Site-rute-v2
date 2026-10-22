@@ -1,4 +1,4 @@
-const { getStore } = require("@netlify/blobs");
+import { getStore } from "@netlify/blobs";
 
 const corsHeaders = {
   "Content-Type": "application/json",
@@ -42,22 +42,21 @@ Responda SOMENTE em JSON válido, sem markdown e sem crases:
 
 Escreva em português do Brasil.`;
 
-exports.handler = async (event, context) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers: corsHeaders, body: "" };
+const json = (status, data, headers = corsHeaders) =>
+  new Response(JSON.stringify(data), { status, headers });
+
+export default async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("", { status: 200, headers: corsHeaders });
   }
 
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      headers: corsHeaders,
-      body: JSON.stringify({ error: "method_not_allowed" }),
-    };
+  if (req.method !== "POST") {
+    return json(405, { error: "method_not_allowed" });
   }
 
   // Verifica token de sessão customizado no header Authorization: Bearer <token>
   let sessionUser = null;
-  const authHeader = event.headers["authorization"] || event.headers["Authorization"];
+  const authHeader = req.headers.get("authorization");
   if (authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.slice(7);
     try {
@@ -72,8 +71,8 @@ exports.handler = async (event, context) => {
   }
 
   const ip =
-    event.headers["x-nf-client-connection-ip"] ||
-    event.headers["client-ip"] ||
+    req.headers.get("x-nf-client-connection-ip") ||
+    req.headers.get("client-ip") ||
     "unknown";
   const today = new Date().toISOString().slice(0, 10);
 
@@ -88,59 +87,31 @@ exports.handler = async (event, context) => {
       count: 0,
     };
     if (current.count >= limit) {
-      return {
-        statusCode: 429,
-        headers: corsHeaders,
-        body: JSON.stringify({
-          error: sessionUser ? "limite_diario_atingido" : "login_necessario",
-          message: sessionUser
-            ? "Você atingiu o limite de reflexões de hoje. Volte amanhã!"
-            : "Sua reflexão gratuita de hoje já foi usada. Entre com seu e-mail para desbloquear mais.",
-        }),
-      };
+      return json(429, {
+        error: sessionUser ? "limite_diario_atingido" : "login_necessario",
+        message: sessionUser
+          ? "Você atingiu o limite de reflexões de hoje. Volte amanhã!"
+          : "Sua reflexão gratuita de hoje já foi usada. Entre com seu e-mail para desbloquear mais.",
+      });
     }
   } catch (e) {
     // se o controle de limite falhar (ex: Netlify Blobs não configurado), seguimos em frente sem travar o usuário
   }
 
   try {
-    // Parse do body de forma robusta (aceita string ou objeto já parseado)
+    // Parse do body de forma robusta
     let bodyData = {};
+    const raw = await req.text();
     try {
-      const raw = event.body;
-      if (typeof raw === "string") {
-        bodyData = JSON.parse(raw || "{}");
-      } else if (raw && typeof raw === "object") {
-        bodyData = raw;
-      }
+      bodyData = JSON.parse(raw || "{}");
     } catch (parseErr) {
-      return {
-        statusCode: 400,
-        headers: corsHeaders,
-        body: JSON.stringify({ error: "invalid_body", raw: String(event.body).slice(0, 200) }),
-      };
+      return json(400, { error: "invalid_body", raw: String(raw).slice(0, 200) });
     }
     const { theme, thought } = bodyData || {};
 
-
     if (typeof theme !== "string" || !theme.trim() ||
       (thought != null && typeof thought !== "string")) {
-      return {
-        statusCode: 400,
-        headers: corsHeaders,
-        body: JSON.stringify({ error: "invalid_input", message: "Escolha um tema válido e envie o pensamento como texto." }),
-      };
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return {
-        statusCode: 500,
-        headers: corsHeaders,
-        body: JSON.stringify({
-          error: "missing_api_key",
-          message: "A variável de ambiente GEMINI_API_KEY não está configurada no Netlify.",
-        }),
-      };
+      return json(400, { error: "invalid_input", message: "Escolha um tema válido e envie o pensamento como texto." });
     }
 
     const userPrompt = `Tema: ${theme}\nPensamento da pessoa agora: ${
@@ -151,7 +122,9 @@ exports.handler = async (event, context) => {
     const fullPrompt = `${SYSTEM_PROMPT}\n\n${userPrompt}`;
 
     const model = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
+    // Usa o Netlify AI Gateway quando disponível; caso contrário, a API do Google diretamente
+    const baseUrl = (process.env.GOOGLE_GEMINI_BASE_URL || "https://generativelanguage.googleapis.com").replace(/\/$/, "");
+    const geminiUrl = `${baseUrl}/v1beta/models/${encodeURIComponent(model)}:generateContent`;
 
     const response = await fetch(geminiUrl, {
       method: "POST",
@@ -190,14 +163,10 @@ exports.handler = async (event, context) => {
         404: "O modelo do Gemini não está disponível. Atualize GEMINI_MODEL no Netlify.",
         429: "A cota do Gemini foi atingida. Verifique os limites e o faturamento no Google AI Studio.",
       };
-      return {
-        statusCode: 502,
-        headers: corsHeaders,
-        body: JSON.stringify({
-          error: "gemini_error",
-          message: messages[response.status] || "O Gemini está indisponível agora. Tente novamente em alguns instantes.",
-        }),
-      };
+      return json(502, {
+        error: "gemini_error",
+        message: messages[response.status] || "O Gemini está indisponível agora. Tente novamente em alguns instantes.",
+      });
     }
 
     const data = await response.json();
@@ -231,19 +200,11 @@ exports.handler = async (event, context) => {
       } catch (e) {}
     }
 
-    return {
-      statusCode: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      body: JSON.stringify(parsed),
-    };
+    return json(200, parsed);
   } catch (e) {
-    return {
-      statusCode: 500,
-      headers: corsHeaders,
-      body: JSON.stringify({
-        error: "generation_failed",
-        message: "A IA não retornou uma reflexão válida. Tente novamente em alguns instantes.",
-      }),
-    };
+    return json(500, {
+      error: "generation_failed",
+      message: "A IA não retornou uma reflexão válida. Tente novamente em alguns instantes.",
+    });
   }
 };
