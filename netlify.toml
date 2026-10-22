@@ -1,0 +1,8 @@
+# The app lives in a subfolder. Setting the base directory here (with forward
+# slashes) overrides the dashboard value, which used a Windows-style backslash
+# ("public\sentir-e-habilidade") that does not resolve on Netlify's Linux builders.
+[build]
+  base = "public/sentir-e-habilidade"
+  command = "npm ci && npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
