@@ -1090,7 +1090,6 @@ export default function App() {
           )}
         </div>
       </div>
-    </div>
 
     {showAuthModal && (
       <div
@@ -1266,54 +1265,6 @@ export default function App() {
               </p>
             </>
           ) : (
-                onChange={(e) => setAuthPassword(e.target.value)}
-                placeholder="••••••••"
-                style={{
-                  width: "100%",
-                  background: "#1f0f0c",
-                  border: "1px solid #4a2e24",
-                  color: "#e9ded2",
-                  padding: "12px 14px",
-                  fontSize: 15,
-                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
-                  boxSizing: "border-box",
-                  marginBottom: 20,
-                }}
-              />
-
-              <button
-                onClick={handleLogin}
-                disabled={authLoading}
-                style={{
-                  width: "100%",
-                  background: authLoading ? "#7a2318" : "#a3271c",
-                  color: "#f3e8d8",
-                  border: "none",
-                  padding: "14px 0",
-                  fontSize: 16,
-                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
-                  cursor: authLoading ? "default" : "pointer",
-                  borderRadius: 6,
-                }}
-              >
-                {authLoading ? "Entrando..." : "Entrar"}
-              </button>
-
-              <p
-                style={{
-                  marginTop: 16,
-                  fontSize: 13,
-                  color: "#c9bba9",
-                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  display: "inline-block",
-                }}
-                onClick={() => setAuthMode("signup")}
-              >
-                Não tem conta? Cadastre-se
-              </p>
-            </>
             <>
               <label
                 style={{
@@ -1447,7 +1398,7 @@ export default function App() {
           )}
         </div>
       </div>
-    )
+    )}
 
     </div>
   );
