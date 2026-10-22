@@ -55,9 +55,21 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Netlify Identity preenche isto automaticamente quando o front-end manda
-  // o token de login no header Authorization: Bearer <token>
-  const user = context.clientContext && context.clientContext.user;
+  // Verifica token de sessão customizado no header Authorization: Bearer <token>
+  let sessionUser = null;
+  const authHeader = event.headers["authorization"] || event.headers["Authorization"];
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.slice(7);
+    try {
+      const sessionStore = getStore("sessions");
+      const session = await sessionStore.get(`session-${token}`, { type: "json" });
+      if (session && new Date(session.expiresAt) > new Date()) {
+        sessionUser = { email: session.email, name: session.name };
+      }
+    } catch (e) {
+      // falha silenciosa na leitura da sessão, segue como anônimo
+    }
+  }
 
   const ip =
     event.headers["x-nf-client-connection-ip"] ||
@@ -65,8 +77,8 @@ exports.handler = async (event, context) => {
     "unknown";
   const today = new Date().toISOString().slice(0, 10);
 
-  const rateKey = user ? `user:${user.email}:${today}` : `ip:${ip}:${today}`;
-  const limit = user ? DAILY_LIMIT_LOGGED : DAILY_LIMIT_ANON;
+  const rateKey = sessionUser ? `user:${sessionUser.email}:${today}` : `ip:${ip}:${today}`;
+  const limit = sessionUser ? DAILY_LIMIT_LOGGED : DAILY_LIMIT_ANON;
   let rateStore;
   let current;
 
@@ -80,8 +92,8 @@ exports.handler = async (event, context) => {
         statusCode: 429,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: user ? "limite_diario_atingido" : "login_necessario",
-          message: user
+          error: sessionUser ? "limite_diario_atingido" : "login_necessario",
+          message: sessionUser
             ? "Você atingiu o limite de reflexões de hoje. Volte amanhã!"
             : "Sua reflexão gratuita de hoje já foi usada. Entre com seu e-mail para desbloquear mais.",
         }),

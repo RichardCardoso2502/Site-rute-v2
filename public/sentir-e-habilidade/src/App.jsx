@@ -77,23 +77,114 @@ export default function App() {
   const [leads, setLeads] = useState([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
 
-  // Login (Netlify Identity)
-  const [user, setUser] = useState(null);
+  // Auth customizado (nome, email, senha)
+  const [authUser, setAuthUser] = useState(null);
+  const [authToken, setAuthToken] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
+  const [authName, setAuthName] = useState("");
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState(null);
   const [loginRequired, setLoginRequired] = useState(false);
 
   useEffect(() => {
-    if (!window.netlifyIdentity) return;
-    const widget = window.netlifyIdentity;
-    widget.on("init", (u) => setUser(u));
-    widget.on("login", (u) => {
-      setUser(u);
+    const token = localStorage.getItem("sentir-e-habilidade:token");
+    const userStr = localStorage.getItem("sentir-e-habilidade:user");
+    if (token && userStr) {
+      try {
+        setAuthToken(token);
+        setAuthUser(JSON.parse(userStr));
+      } catch (e) {
+        localStorage.removeItem("sentir-e-habilidade:token");
+        localStorage.removeItem("sentir-e-habilidade:user");
+      }
+    }
+  }, []);
+
+  async function handleSignup() {
+    if (!authName || !authEmail || !authPassword) {
+      setAuthError("Preencha todos os campos.");
+      return;
+    }
+    if (!authEmail.includes("@")) {
+      setAuthError("Digite um e-mail válido.");
+      return;
+    }
+    if (authPassword.length < 6) {
+      setAuthError("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const response = await fetch("/.netlify/functions/auth-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: authName, email: authEmail, password: authPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "falha_ao_cadastrar");
+      setAuthError(null);
+      setAuthMode("login");
+      setAuthEmail(authEmail);
+      setAuthPassword("");
+      setAuthName("");
+    } catch (e) {
+      setAuthError(e.message || "Não foi possível cadastrar. Tente novamente.");
+    } finally {
+      setAuthLoading(false);
+    }
+  }
+
+  async function handleLogin() {
+    if (!authEmail || !authPassword) {
+      setAuthError("Preencha e-mail e senha.");
+      return;
+    }
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const response = await fetch("/.netlify/functions/auth-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: authEmail, password: authPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "credenciais_invalidas");
+      setAuthToken(data.token);
+      setAuthUser(data.user);
+      localStorage.setItem("sentir-e-habilidade:token", data.token);
+      localStorage.setItem("sentir-e-habilidade:user", JSON.stringify(data.user));
+      setShowAuthModal(false);
       setLoginRequired(false);
       setError(null);
-      widget.close();
-    });
-    widget.on("logout", () => setUser(null));
-    widget.init();
-  }, []);
+      setAuthEmail("");
+      setAuthPassword("");
+      setAuthName("");
+    } catch (e) {
+      setAuthError(e.message || "E-mail ou senha incorretos.");
+    } finally {
+      setAuthLoading(false);
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      await fetch("/.netlify/functions/auth-logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: authToken }),
+      });
+    } catch (e) {
+      // ignora erro de logout
+    }
+    setAuthToken(null);
+    setAuthUser(null);
+    localStorage.removeItem("sentir-e-habilidade:token");
+    localStorage.removeItem("sentir-e-habilidade:user");
+  }
 
   const themeLabel = THEMES.find((t) => t.id === theme)?.label ?? theme;
 
@@ -137,9 +228,8 @@ export default function App() {
 
     try {
       const headers = { "Content-Type": "application/json" };
-      if (user) {
-        const token = await user.jwt();
-        headers["Authorization"] = `Bearer ${token}`;
+      if (authToken) {
+        headers["Authorization"] = `Bearer ${authToken}`;
       }
 
       const response = await fetch("/.netlify/functions/generate", {
@@ -278,9 +368,9 @@ export default function App() {
           >
             Sentir é Habilidade
           </span>
-          {user ? (
+          {authUser ? (
             <button
-              onClick={() => window.netlifyIdentity?.logout()}
+              onClick={handleLogout}
               style={{
                 background: "none",
                 border: "1px solid #4a2e24",
@@ -295,7 +385,7 @@ export default function App() {
             </button>
           ) : (
             <button
-              onClick={() => window.netlifyIdentity?.open("login")}
+              onClick={() => setShowAuthModal(true)}
               style={{
                 background: "none",
                 border: "1px solid #4a2e24",
@@ -487,7 +577,7 @@ export default function App() {
             </p>
             {loginRequired && (
               <button
-                onClick={() => window.netlifyIdentity?.open("login")}
+                onClick={() => setShowAuthModal(true)}
                 style={{
                   background: "#3a231d",
                   color: "#e9ded2",
@@ -498,7 +588,7 @@ export default function App() {
                   fontFamily: "'Helvetica Neue', Arial, sans-serif",
                 }}
               >
-                Entrar e desbloquear mais 4 reflexões
+                Entrar e desbloquear mais reflexões
               </button>
             )}
           </div>
@@ -1000,6 +1090,365 @@ export default function App() {
           )}
         </div>
       </div>
+    </div>
+
+    {showAuthModal && (
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.7)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000,
+          backdropFilter: "blur(4px)",
+        }}
+      >
+        <div
+          style={{
+            background: "#2b1410",
+            border: "1px solid #4a2e24",
+            borderRadius: 12,
+            padding: 32,
+            width: "min(400px, 90vw)",
+            maxHeight: "90vh",
+            overflowY: "auto",
+            boxSizing: "border-box",
+          }}
+        >
+          <button
+            onClick={() => setShowAuthModal(false)}
+            style={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              background: "none",
+              border: "none",
+              color: "#8a7566",
+              fontSize: 20,
+              cursor: "pointer",
+              lineHeight: 1,
+            }}
+          >
+            ×
+          </button>
+
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: 24,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 24,
+                fontWeight: 600,
+                letterSpacing: "1px",
+                color: "#c9a34e",
+                fontFamily: "'Georgia', serif",
+              }}
+            >
+              {authMode === "login" ? "Entrar" : "Criar conta"}
+            </span>
+          </div>
+
+          {authError && (
+            <p
+              style={{
+                color: "#d2703f",
+                fontSize: 13,
+                marginBottom: 16,
+                fontFamily: "'Helvetica Neue', Arial, sans-serif",
+              }}
+            >
+              {authError}
+            </p>
+          )}
+
+          {authMode === "login" ? (
+            <>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  letterSpacing: "1px",
+                  color: "#c9a34e",
+                  textTransform: "uppercase",
+                  marginBottom: 6,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  textAlign: "left",
+                }}
+              >
+                E-mail
+              </label>
+              <input
+                type="email"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                placeholder="seu@email.com"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 16,
+                }}
+              />
+
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  letterSpacing: "1px",
+                  color: "#c9a34e",
+                  textTransform: "uppercase",
+                  marginBottom: 6,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  textAlign: "left",
+                }}
+              >
+                Senha
+              </label>
+              <input
+                type="password"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 20,
+                }}
+              />
+
+              <button
+                onClick={handleLogin}
+                disabled={authLoading}
+                style={{
+                  width: "100%",
+                  background: authLoading ? "#7a2318" : "#a3271c",
+                  color: "#f3e8d8",
+                  border: "none",
+                  padding: "14px 0",
+                  fontSize: 16,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: authLoading ? "default" : "pointer",
+                  borderRadius: 6,
+                }}
+              >
+                {authLoading ? "Entrando..." : "Entrar"}
+              </button>
+
+              <p
+                style={{
+                  marginTop: 16,
+                  fontSize: 13,
+                  color: "#c9bba9",
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  display: "inline-block",
+                }}
+                onClick={() => setAuthMode("signup")}
+              >
+                Não tem conta? Cadastre-se
+              </p>
+            </>
+          ) : (
+                onChange={(e) => setAuthPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 20,
+                }}
+              />
+
+              <button
+                onClick={handleLogin}
+                disabled={authLoading}
+                style={{
+                  width: "100%",
+                  background: authLoading ? "#7a2318" : "#a3271c",
+                  color: "#f3e8d8",
+                  border: "none",
+                  padding: "14px 0",
+                  fontSize: 16,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: authLoading ? "default" : "pointer",
+                  borderRadius: 6,
+                }}
+              >
+                {authLoading ? "Entrando..." : "Entrar"}
+              </button>
+
+              <p
+                style={{
+                  marginTop: 16,
+                  fontSize: 13,
+                  color: "#c9bba9",
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  display: "inline-block",
+                }}
+                onClick={() => setAuthMode("signup")}
+              >
+                Não tem conta? Cadastre-se
+              </p>
+            </>
+            <>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  letterSpacing: "1px",
+                  color: "#c9a34e",
+                  textTransform: "uppercase",
+                  marginBottom: 6,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  textAlign: "left",
+                }}
+              >
+                Nome completo
+              </label>
+              <input
+                type="text"
+                value={authName}
+                onChange={(e) => setAuthName(e.target.value)}
+                placeholder="Seu nome"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 16,
+                }}
+              />
+
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  letterSpacing: "1px",
+                  color: "#c9a34e",
+                  textTransform: "uppercase",
+                  marginBottom: 6,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  textAlign: "left",
+                }}
+              >
+                E-mail
+              </label>
+              <input
+                type="email"
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                placeholder="seu@email.com"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 16,
+                }}
+              />
+
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 12,
+                  letterSpacing: "1px",
+                  color: "#c9a34e",
+                  textTransform: "uppercase",
+                  marginBottom: 6,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  textAlign: "left",
+                }}
+              >
+                Senha (mín. 6 caracteres)
+              </label>
+              <input
+                type="password"
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{
+                  width: "100%",
+                  background: "#1f0f0c",
+                  border: "1px solid #4a2e24",
+                  color: "#e9ded2",
+                  padding: "12px 14px",
+                  fontSize: 15,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  boxSizing: "border-box",
+                  marginBottom: 20,
+                }}
+              />
+
+              <button
+                onClick={handleSignup}
+                disabled={authLoading}
+                style={{
+                  width: "100%",
+                  background: authLoading ? "#7a2318" : "#a3271c",
+                  color: "#f3e8d8",
+                  border: "none",
+                  padding: "14px 0",
+                  fontSize: 16,
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: authLoading ? "default" : "pointer",
+                  borderRadius: 6,
+                }}
+              >
+                {authLoading ? "Criando..." : "Criar conta"}
+              </button>
+
+              <p
+                style={{
+                  marginTop: 16,
+                  fontSize: 13,
+                  color: "#c9bba9",
+                  fontFamily: "'Helvetica Neue', Arial, sans-serif",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  display: "inline-block",
+                }}
+                onClick={() => setAuthMode("login")}
+              >
+                Já tem conta? Faça login
+              </p>
+            </>
+          )}
+        </div>
+      </div>
+    )
+
     </div>
   );
 }
